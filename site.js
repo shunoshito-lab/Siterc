@@ -4117,13 +4117,16 @@ function initHeroCanvas() {
     const lobbyAudio = document.getElementById('lobby-audio');
     const isAudioPlaying = (audio && !audio.paused) || (lobbyAudio && !lobbyAudio.paused) || (typeof BgMusic !== 'undefined' && BgMusic.isPlaying);
 
+    // Con la diretta collegata all'analyser (mascotte.js) le onde seguono il volume vero
+    const reactive = typeof RCAudioReactive !== 'undefined' && RCAudioReactive.enabled && audio && !audio.paused;
+
     if (isAudioPlaying) {
-      targetAmp = 65;
+      targetAmp = reactive ? 30 + RCAudioReactive.level * 90 + RCAudioReactive.bass * 30 : 65;
       targetSpeed = 0.055;
       targetFreq = 0.006;
     }
 
-    currentAmp = lerp(currentAmp, targetAmp, 0.05);
+    currentAmp = lerp(currentAmp, targetAmp, reactive ? 0.25 : 0.05);
     currentSpeed = lerp(currentSpeed, targetSpeed, 0.05);
     currentFreq = lerp(currentFreq, targetFreq, 0.05);
 
@@ -4185,7 +4188,8 @@ function initHeroCanvas() {
     
     ctx.fillText(`SYSTEM_STATUS: ${status}`, 20, 30);
     ctx.fillText(freq, 20, 45);
-    ctx.fillText(`SIG_LEVEL: ${isAudioPlaying ? "-9.4 dB" : "-42.8 dB"}`, 20, 60);
+    const sigLevel = reactive ? `${RCAudioReactive.db.toFixed(1)} dB` : (isAudioPlaying ? "-9.4 dB" : "-42.8 dB");
+    ctx.fillText(`SIG_LEVEL: ${sigLevel}`, 20, 60);
 
     ctx.fillText(`SYS_TIME: ${new Date().toLocaleTimeString()}`, width - 150, 30);
     ctx.fillText(`RENDER_FLOW: ${(1000 / 16.6).toFixed(0)} FPS`, width - 150, 45);
