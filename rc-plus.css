@@ -739,3 +739,40 @@ body.theme-explore .rc-focus .rc-focus__entry { border-top-color: var(--line) !i
 body.rc-on-air .rc-cover-vu i { background: var(--rc-red); }
 .np-overlay__cover-placeholder .rc-cover-vu { gap: 8px; }
 .np-overlay__cover-placeholder .rc-cover-vu i { width: 10px; }
+
+/* ── BUMPER LAMPO (tendina, cambio brano, ritorno) ─────────── */
+.rc-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 100070;
+  display: flex;
+  align-items: center;
+  padding: var(--s-9) max(var(--s-7), env(safe-area-inset-right, 0px)) var(--s-9) max(var(--s-7), env(safe-area-inset-left, 0px));
+  background: #000;
+  color: var(--rc-bone);
+  cursor: pointer;
+}
+.rc-flash--red { background: var(--rc-red); }
+.rc-flash--red .rc-bumper__txt em { color: var(--rc-ink); }
+.rc-flash--red .rc-bumper__top, .rc-flash--red .rc-bumper__bot { color: rgba(255, 255, 255, 0.72); }
+.rc-flash .rc-bumper__top { top: calc(var(--s-5) + env(safe-area-inset-top, 0px)); }
+.rc-flash .rc-bumper__bot { bottom: calc(var(--s-5) + env(safe-area-inset-bottom, 0px)); }
+.rc-flash .rc-bumper__line { visibility: hidden; }
+.rc-flash .rc-bumper__line--on { visibility: visible; }
+.rc-flash--out { visibility: hidden; }
+/* dentro la tendina il lampo copre solo la tendina */
+.np-overlay .rc-flash { position: absolute; }
+
+/* ── ESPLORA: frase dell'ora ───────────────────────────────── */
+.rc-focus .rc-focus__phrase {
+  margin: var(--s-3) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--fg1);
+  text-wrap: balance;
+}
+body.theme-explore .rc-flash { background-color: #000 !important; }
+body.theme-explore .rc-flash * { color: var(--rc-bone) !important; }
+body.theme-explore .rc-focus .rc-focus__phrase { color: var(--fg1) !important; }

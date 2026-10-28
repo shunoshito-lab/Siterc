@@ -1,0 +1,51 @@
+# Mette online il Worker di Radio Carducci (login + notizie ANSA) su Cloudflare.
+# Serve una volta sola aggiungere nei secrets del repo:
+#   CLOUDFLARE_API_TOKEN  (token con permesso "Edit Cloudflare Workers" e "Workers KV Storage: Edit")
+#   CLOUDFLARE_ACCOUNT_ID (lo trovi nella home di Cloudflare, colonna a destra)
+# Poi parte da solo a ogni modifica in worker/, oppure a mano da Actions → "Worker online" → Run workflow.
+
+name: Worker online
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "worker/**" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    defaults:
+      run:
+        working-directory: worker
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+    - name: Controllo dei secrets
+      run: |
+        if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+          echo "::error::Mancano CLOUDFLARE_API_TOKEN o CLOUDFLARE_ACCOUNT_ID nei secrets del repo"
+          exit 1
+        fi
+    - name: Archivio degli account (KV), creato se non c'è
+      run: |
+        find_id() { npx --yes wrangler@3.99.0 kv namespace list | jq -r '.[] | select(.title | endswith("ACCOUNTS")) | .id' | head -1; }
+        id=$(find_id)
+        if [ -z "$id" ]; then
+          npx --yes wrangler@3.99.0 kv namespace create ACCOUNTS
+          id=$(find_id)
+        fi
+        if [ -z "$id" ]; then echo "::error::Non riesco a creare l'archivio KV"; exit 1; fi
+        sed -i "s/INCOLLA_QUI_ID_DEL_KV/$id/" wrangler.toml
+    - name: Pubblica il Worker
+      run: |
+        npx --yes wrangler@3.99.0 deploy | tee deploy.log
+        url=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
+        echo "## Worker online" >> "$GITHUB_STEP_SUMMARY"
+        echo "Indirizzo: **$url**" >> "$GITHUB_STEP_SUMMARY"
+        echo "Prova: $url/news" >> "$GITHUB_STEP_SUMMARY"

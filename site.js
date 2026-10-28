@@ -2434,14 +2434,14 @@ const NowPlaying = {
     const elapsedSec = typeof data.now_playing?.elapsed === 'number' ? data.now_playing.elapsed
       : (typeof data.elapsed === 'number' ? data.elapsed : null);
     // Orologio del dispositivo: played_at + elapsed è "adesso" secondo il server.
-    // Le risposte in cache sono un po' vecchie e gonfiano la differenza, quindi si tiene la più piccola.
+    // Le risposte in cache sono un po' vecchie e gonfiano la differenza, quindi vale la più
+    // piccola vista in tutta la visita: la stima può solo scendere, così non salta avanti e indietro.
     if (typeof playedAtSec === 'number' && playedAtSec > 0 && elapsedSec != null) {
       const sample = Date.now() - (playedAtSec + elapsedSec) * 1000;
-      if (Math.abs(sample) < 6 * 3600 * 1000) {
-        this._skewSamples.push(sample);
-        if (this._skewSamples.length > 20) this._skewSamples.shift();
-        this.clockSkewMs = Math.min(...this._skewSamples);
+      if (Math.abs(sample) < 6 * 3600 * 1000 && (!this._skewSamples.length || sample < this.clockSkewMs)) {
+        this.clockSkewMs = sample;
       }
+      this._skewSamples.push(1);
     }
     if (typeof playedAtSec === 'number' && playedAtSec > 0) {
       const diff = (Date.now() - this.clockSkewMs) / 1000 - playedAtSec;
@@ -3209,10 +3209,15 @@ const NowPlaying = {
       lineEl.addEventListener('click', (e) => {
         if (!this.isTimeSyncEnabled) return;
         e.stopPropagation();
+        // un tocco alla volta: due tocchi ravvicinati sommerebbero la correzione
+        if (Date.now() - (this._lastLyricTap || 0) < 500) return;
+        this._lastLyricTap = Date.now();
         const lineTime = parseFloat(lineEl.dataset.time);
         if (!isNaN(lineTime)) {
-          // Il tocco diventa una correzione personale: il polling non la cancella e resta salvata
-          this.setUserOffset(this.userOffset + (lineTime - this.lyricsElapsed()));
+          // Il tocco diventa una correzione personale: il polling non la cancella e resta salvata.
+          // Si tocca sempre un attimo dopo aver sentito la riga: 0.25 s di tempo di reazione.
+          const REAZIONE = 0.25;
+          this.setUserOffset(this.userOffset + (lineTime + REAZIONE - this.lyricsElapsed()));
           this.resumeAutoScroll();
           this.tickLyricsSync();
         }
@@ -3420,15 +3425,25 @@ function initBento() {
 
       if (SITE_CFG && SITE_CFG.sections && SITE_CFG.sections.news === false) return;
       const rssUrl = (SITE_CFG && SITE_CFG.news && SITE_CFG.news.rssUrl) || 'https://www.ansa.it/sito/ansait_rss.xml';
-      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-      if (!res.ok) throw new Error('API RSS Error');
-      const data = await res.json();
+      // 1) il Worker di Radio Carducci legge l'ANSA lato server (worker/account-worker.js, rotta /news)
+      // 2) se non c'è, rss2json (gratuito ma con limiti: quando li supera, il browser blocca la risposta)
+      let data = null;
+      const apiBase = String(window.RC_ACCOUNT_API || (APP_CONFIG && APP_CONFIG.meta && APP_CONFIG.meta.accountApi) || '').replace(/\/+$/, '');
+      if (apiBase) {
+        data = await fetch(`${apiBase}/news`).then(r => r.ok ? r.json() : null).catch(() => null);
+      }
+      if (!data || !data.items || !data.items.length) {
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        if (!res.ok) throw new Error('API RSS Error');
+        data = await res.json();
+      }
       if (data && data.items && data.items.length > 0) {
         const newsItems = data.items.slice(0, 10);
         canvasEl.innerHTML = newsItems.map((item, i) => {
           const safeTitle = escapeHtml(item.title);
-          const query = encodeURIComponent(item.title);
-          return `<a href="https://www.google.com/search?q=${query}" target="_blank" rel="noopener" class="bento-news__item ${i === 0 ? 'active' : ''}">${safeTitle}</a>`;
+          const link = /^https:\/\/(www\.)?ansa\.it\//.test(item.link || '') ? item.link
+            : `https://www.google.com/search?q=${encodeURIComponent(item.title)}`;
+          return `<a href="${escapeHtml(link)}" target="_blank" rel="noopener" class="bento-news__item ${i === 0 ? 'active' : ''}">${safeTitle}</a>`;
         }).join('');
 
         let currentIndex = 0;
@@ -3464,7 +3479,9 @@ function initBento() {
 
   updateClock();
   updateDate();
-  fetchNews();
+  // il config con l'indirizzo del Worker arriva da R2 dopo qualche secondo: si aspetta un attimo
+  setTimeout(fetchNews, window.RC_ACCOUNT_API ? 0 : 3000);
+  setInterval(fetchNews, 10 * 60 * 1000);
   setInterval(updateClock, 1000 * 60); 
 }
 

@@ -1,7 +1,8 @@
 /* ============================================================
    RADIO CARDUCCI — ORA E ALMANACCO NELLA MODALITÀ ESPLORA
-   Ora locale, data di oggi e una voce dell'almanacco che cambia
-   ogni 15 minuti: accadde oggi, nati oggi, santi e ricorrenze.
+   Ora locale, data di oggi, una frase per il quarto d'ora (100 frasi
+   per fascia oraria) e una voce dell'almanacco che cambia ogni 15
+   minuti: accadde oggi, nati oggi, santi e ricorrenze.
    I dati vengono dalla pagina del giorno di Wikipedia in italiano
    (es. "28 ottobre"), letti dal browser e ricordati per la giornata:
    valgono per ogni anno, quindi non c'è niente da rifare.
@@ -102,6 +103,137 @@
     return { label: 'RC / ESPLORA', year: '', text: list[slot(d) % list.length].replace('{ora}', clock(d)) };
   }
 
+  // ── Frasi dell'ora: una diversa ogni quarto d'ora, scelte per fascia ──
+  // {ora} diventa l'ora attuale. Voce RC: minuscolo, secco, niente punti esclamativi.
+  const FRASI_ORA = [
+    { da: 0, a: 5, frasi: [
+      'sono le {ora}. a quest\'ora la radio la ascoltano in pochi, ma bene.',
+      'notte fonda. se stai studiando, rispetto. se no, a letto.',
+      'le {ora}. il mixer dorme, la diretta no.',
+      'orario da insonni. musica bassa e luci spente.',
+      'a quest\'ora anche i compiti dormono. tu?',
+      'notte. la città è ferma, lo stream va.',
+      'le {ora}: il momento giusto per un ultimo brano. solo uno.',
+      'chi ascolta la radio di notte ha sempre qualcosa da pensare.'
+    ] },
+    { da: 5, a: 7, frasi: [
+      'alba. il cielo sopra via Asmara si schiarisce.',
+      'le {ora}. presto per tutti, tranne per chi ha la verifica.',
+      'prime luci. un brano per svegliarsi piano.',
+      'mattina presto: niente fretta, ancora un po\'.',
+      'le {ora}. la sveglia non ha ancora suonato. o sì.',
+      'è presto. la radio è già sveglia, tu fai con calma.',
+      'buongiorno a chi è già in piedi. agli altri, dopo.',
+      'colazione, zaino, cuffie. l\'ordine lo scegli tu.'
+    ] },
+    { da: 7, a: 8, frasi: [
+      'le {ora}. si esce di casa: cuffie nelle orecchie.',
+      'in metro, in autobus o a piedi: la diretta viene con te.',
+      'mancano pochi minuti alla prima ora. respira.',
+      'le {ora}. ultimo brano prima di entrare.',
+      'il tragitto casa-scuola dura una playlist. più o meno.',
+      'mattina. hai preso tutto? anche il caricatore?',
+      'le {ora}. il momento in cui si ripassa sul telefono.',
+      'si va. buona giornata, davvero.'
+    ] },
+    { da: 8, a: 10, frasi: [
+      'le {ora}. lezioni iniziate: la radio aspetta fuori dall\'aula.',
+      'prima ora. il volume, se c\'è, è a zero.',
+      'mentre voi fate lezione, noi teniamo calda la diretta.',
+      'le {ora}. concentrazione. la musica dopo.',
+      'mattina piena. il sito resta qui, quando hai un minuto.',
+      'seconda ora, terza ora. il tempo a scuola ha un ritmo tutto suo.',
+      'le {ora}. qualcuno sta interrogando qualcun altro. coraggio.',
+      'si studia. la radio fa da sottofondo a chi può.'
+    ] },
+    { da: 10, a: 12, frasi: [
+      'le {ora}. tra poco intervallo. più o meno.',
+      'metà mattina: il momento della merenda.',
+      'intervallo in arrivo. dieci minuti valgono un brano o due.',
+      'le {ora}. chi ha fame alzi la mano. mentalmente.',
+      'la mattina è a metà. si tiene duro.',
+      'le {ora}. corridoio pieno, cuffie piene.',
+      'quarta ora. resiste chi resiste.',
+      'pausa? un brano e si rientra.'
+    ] },
+    { da: 12, a: 14, frasi: [
+      'le {ora}. ultime ore, ultimi sforzi.',
+      'si avvicina l\'uscita. la diretta ti aspetta al cancello.',
+      'le {ora}. chi esce adesso, buon pranzo.',
+      'fine lezioni per qualcuno. per altri, ancora un po\'.',
+      'mezzogiorno passato. il pomeriggio è lì.',
+      'le {ora}. zaino in spalla, cuffie in testa.',
+      'si torna a casa. il tragitto è della radio.',
+      'uscita. oggi com\'è andata? non rispondere, metti un brano.'
+    ] },
+    { da: 14, a: 16, frasi: [
+      'le {ora}. pranzo fatto, compiti in vista.',
+      'primo pomeriggio. la musica aiuta, se è quella giusta.',
+      'le {ora}. un\'ora di studio, un brano di pausa. si può fare.',
+      'pomeriggio. le dirette dalla regia iniziano a scaldarsi.',
+      'le {ora}. il momento più lento della giornata.',
+      'compiti e musica, nell\'ordine che preferisci.',
+      'dopo pranzo: un po\' di energia non guasta.',
+      'le {ora}. se ti serve concentrazione, prova l\'esplora.'
+    ] },
+    { da: 16, a: 18, frasi: [
+      'le {ora}. pomeriggio pieno: allenamenti, lezioni, compiti.',
+      'merenda del pomeriggio. sì, esiste anche questa.',
+      'le {ora}. pausa dallo studio: cinque minuti di diretta.',
+      'il pomeriggio va avanti. la radio pure.',
+      'le {ora}. chi esce, chi resta, chi studia. tutti in onda.',
+      'luce che cala, playlist che sale.',
+      'le {ora}. ancora un esercizio e poi basta.',
+      'pomeriggio tardo. il momento delle idee migliori.'
+    ] },
+    { da: 18, a: 20, frasi: [
+      'le {ora}. tramonto su Roma, o almeno da qualche parte.',
+      'sera in arrivo. la giornata si fa più leggera.',
+      'le {ora}. cena tra un po\'. un brano intanto.',
+      'si stacca. la radio di sera è un\'altra cosa.',
+      'le {ora}. compiti finiti? se sì, complimenti.',
+      'luci accese, volume giusto.',
+      'le {ora}. il momento di raccontare com\'è andata.',
+      'sera. qui la diretta continua.'
+    ] },
+    { da: 20, a: 22, frasi: [
+      'le {ora}. cena fatta, divano vicino.',
+      'prima serata. musica per non pensare a domani.',
+      'le {ora}. un brano tranquillo prima di preparare lo zaino.',
+      'sera. il palinsesto di domani è già on line, se ti interessa.',
+      'le {ora}. qualcuno ripassa, qualcuno ascolta. anche entrambi.',
+      'la giornata è quasi finita. bene così.',
+      'le {ora}. chiudi i libri, apri le orecchie.',
+      'sera tranquilla. il volume lo decidi tu.'
+    ] },
+    { da: 22, a: 24, frasi: [
+      'le {ora}. domani c\'è scuola: ancora un brano e poi a dormire.',
+      'tardi. abbassa un po\' il volume, gli altri dormono.',
+      'le {ora}. sveglia puntata? controlla.',
+      'fine giornata. grazie di essere passato in radio.',
+      'le {ora}. l\'ultimo brano lo scegli tu, ma è l\'ultimo.',
+      'notte che arriva. luci basse e diretta bassa.',
+      'le {ora}. domani si ricomincia. con la radio, possibilmente.',
+      'buonanotte da radio carducci. lo stream resta acceso.'
+    ] }
+  ];
+  const FRASI_WEEKEND = [
+    'weekend. niente sveglia, la radio sì.',
+    'sabato o domenica: oggi la diretta non ha fretta.',
+    'giorno libero. la playlist pure.',
+    'weekend: il momento giusto per recuperare i podcast.',
+    'oggi niente campanella. musica a volontà.'
+  ];
+
+  function fraseOra(d) {
+    const h = d.getHours(), s = slot(d);
+    const weekend = d.getDay() === 0 || d.getDay() === 6;
+    // nel weekend, di giorno, una volta su tre una frase del weekend
+    if (weekend && h >= 9 && h < 20 && s % 3 === 0) return FRASI_WEEKEND[(s / 3 + d.getDate()) % FRASI_WEEKEND.length];
+    const fascia = FRASI_ORA.find(f => h >= f.da && h < f.a) || FRASI_ORA[0];
+    return fascia.frasi[(s + d.getDate()) % fascia.frasi.length].replace('{ora}', clock(d));
+  }
+
   function clock(d) { return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
 
   function render() {
@@ -113,6 +245,7 @@
     if (box._slot === s && box._hadData === !!data) return;
     box._slot = s;
     box._hadData = !!data;
+    box.querySelector('.rc-focus__phrase').textContent = fraseOra(d);
     const v = voce(d) || frasePiano(d);
     box.querySelector('.rc-focus__label').textContent = v.label;
     box.querySelector('.rc-focus__year').textContent = v.year;
@@ -131,6 +264,7 @@
     box.innerHTML = `
       <div class="rc-focus__clock">--:--</div>
       <div class="rc-focus__date"></div>
+      <p class="rc-focus__phrase"></p>
       <div class="rc-focus__entry">
         <span class="rc-focus__label"></span>
         <span class="rc-focus__year"></span>

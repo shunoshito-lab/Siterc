@@ -14,6 +14,8 @@
      GET  /me        (Bearer token)     → { display, data, updatedAt }
      PUT  /me        (Bearer) { data }  → { ok, updatedAt }
      POST /logout    (Bearer)           → { ok }
+     GET  /news                         → { items: [{ title, link, date }] }  notizie ANSA
+                                          (il browser non può leggere il feed ANSA da solo)
    ============================================================ */
 
 const TOKEN_TTL = 60 * 60 * 24 * 365;   // un anno
@@ -34,6 +36,7 @@ export default {
         case 'GET /me':        return json(await getMe(request, env), 200, cors);
         case 'PUT /me':        return json(await putMe(request, env), 200, cors);
         case 'POST /logout':   return json(await logout(request, env), 200, cors);
+        case 'GET /news':      return json(await news(env), 200, Object.assign({ 'Cache-Control': 'public, max-age=300' }, cors));
         default:               return json({ error: 'rotta inesistente' }, 404, cors);
       }
     } catch (e) {
@@ -186,4 +189,33 @@ async function logout(request, env) {
   const { tokenHash } = await userFromToken(request, env);
   await env.ACCOUNTS.delete('t:' + tokenHash);
   return { ok: true };
+}
+
+// ── Notizie ANSA: si legge il feed lato server e si tiene in cache 5 minuti ──
+const NEWS_FEED = 'https://www.ansa.it/sito/ansait_rss.xml';
+let newsCache = { at: 0, items: [] };
+
+function decodeXml(s) {
+  return String(s || '')
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+    .replace(/&#(\d+);/g, (m, n) => String.fromCharCode(+n)).replace(/&amp;/g, '&')
+    .replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+async function news(env) {
+  if (Date.now() - newsCache.at < 300000 && newsCache.items.length) return { items: newsCache.items };
+  const res = await fetch(env.NEWS_FEED || NEWS_FEED, { headers: { 'User-Agent': 'RadioCarducci/1.0' }, cf: { cacheTtl: 300 } });
+  if (!res.ok) throw new HttpError(502, 'feed notizie non raggiungibile');
+  const xml = await res.text();
+  const items = [];
+  for (const m of xml.matchAll(/<item\b[\s\S]*?<\/item>/g)) {
+    const block = m[0];
+    const get = tag => { const r = block.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`)); return r ? decodeXml(r[1]) : ''; };
+    const title = get('title');
+    if (title) items.push({ title, link: get('link'), date: get('pubDate') });
+    if (items.length >= 15) break;
+  }
+  newsCache = { at: Date.now(), items };
+  return { items };
 }

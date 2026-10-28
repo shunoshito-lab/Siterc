@@ -10,4 +10,4 @@ id = "INCOLLA_QUI_ID_DEL_KV"
 
 [vars]
 # Siti che possono usare il login, separati da virgola
-ALLOWED_ORIGINS = "https://radiocarducci.com,https://www.radiocarducci.com,http://localhost:8000"
+ALLOWED_ORIGINS = "https://shunoshito-lab.github.io,https://radiocarducci.com,https://www.radiocarducci.com,http://localhost:8000"

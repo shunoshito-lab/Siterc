@@ -248,11 +248,96 @@
     ['pause', 'ended', 'error'].forEach(ev => audio.addEventListener(ev, () => set(false)));
   }
 
+  // ═══════════════════════════════════════════════════════════════
+  // BUMPER LAMPO — tendina che si apre, cambio brano a tendina aperta,
+  // ritorno sul sito dopo un po': nero, sigla, frase, jingle
+  // ═══════════════════════════════════════════════════════════════
+  let lastFlash = 0, flashCount = 0;
+
+  function playJingle() {
+    const S = window.RCSamples;
+    if (!S) return;
+    const audioBusy = Array.from(document.querySelectorAll('audio')).some(a => !a.paused);
+    if (audioBusy) return; // sopra la musica il jingle non ci va
+    if (S.ready('jingle') && S.play('jingle', { vol: 0.5, gap: 0 })) return;
+    // jingle provvisorio: tre note secche (sostituibile con assets/sfx/jingle.ogg)
+    let muted = false;
+    try { muted = localStorage.getItem('rc_sounds_muted') === 'true'; } catch (e) {}
+    const c = S.ctx && S.ctx();
+    if (muted || !c || c.state !== 'running') return;
+    [[659, 0], [880, 0.12], [1319, 0.24]].forEach(([f, at]) => {
+      const t = c.currentTime + at;
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = 'square';
+      o.frequency.setValueAtTime(f, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.06, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + (at === 0.24 ? 0.5 : 0.11));
+      o.connect(g).connect(c.destination);
+      o.start(t);
+      o.stop(t + 0.6);
+    });
+  }
+
+  function flashBumper(meta, host) {
+    if (REDUCED || Date.now() - lastFlash < 30000) return;
+    lastFlash = Date.now();
+    const item = BUMPERS[(flashCount++ + Math.floor(Math.random() * BUMPERS.length)) % BUMPERS.length];
+    const el = document.createElement('div');
+    el.className = 'rc-flash' + (Math.random() < 0.3 ? ' rc-flash--red' : '');
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = `
+      <div class="rc-bumper__top"><span>RC</span><span>${String(Math.floor(Math.random() * 900) + 100)}</span></div>
+      <p class="rc-bumper__txt"></p>
+      <div class="rc-bumper__bot"><span>${meta ? String(meta).replace(/[<>&]/g, '') : item.meta}</span><span>RADIOCARDUCCI.COM</span></div>`;
+    const lines = renderBumperText(el.querySelector('.rc-bumper__txt'), item.t);
+    (host || document.body).appendChild(el);
+    lines.forEach((l, i) => setTimeout(() => l.classList.add('rc-bumper__line--on'), 80 + i * 170));
+    playJingle();
+    const close = () => { el.classList.add('rc-flash--out'); setTimeout(() => el.remove(), 160); };
+    const t = setTimeout(close, 1400 + lines.length * 120);
+    el.addEventListener('click', () => { clearTimeout(t); close(); });
+  }
+  window.RCFlashBumper = flashBumper;
+
+  function initFlashBumpers() {
+    const ov = document.getElementById('np-overlay');
+    if (ov) {
+      let open = ov.classList.contains('active');
+      new MutationObserver(() => {
+        const now = ov.classList.contains('active');
+        if (now && !open) flashBumper('ORA IN ONDA', ov);
+        open = now;
+      }).observe(ov, { attributes: true, attributeFilter: ['class'] });
+      const np = window.NowPlaying;
+      if (np && typeof np.onTrackChange === 'function' && !np._rcFlashHooked) {
+        np._rcFlashHooked = true;
+        const orig = np.onTrackChange;
+        np.onTrackChange = function (track) {
+          const r = orig.apply(this, arguments);
+          if (ov.classList.contains('active') && track && !/^radio carducci/i.test(track)) {
+            const title = track.split(' - ').slice(1).join(' - ') || track;
+            // a tempo con quello che si sente, non con i metadati
+            setTimeout(() => flashBumper('ADESSO: ' + title.toUpperCase(), ov), window.RCStreamDelayMs ? window.RCStreamDelayMs() : 0);
+          }
+          return r;
+        };
+      }
+    }
+    // ritorno sul sito dopo almeno 2 minuti via
+    let hiddenAt = 0;
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { hiddenAt = Date.now(); return; }
+      if (hiddenAt && Date.now() - hiddenAt > 120000) flashBumper('BENTORNATO', ov && ov.classList.contains('active') ? ov : null);
+    });
+  }
+
   function boot() {
     initLiveBadges();
     initStudi();
     initBumpers();
     initRise();
+    initFlashBumpers();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
