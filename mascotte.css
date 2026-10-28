@@ -43,9 +43,8 @@
 }
 .rc-mascot__body:hover svg .m-red { fill: var(--rc-red); }
 .rc-mascot__body:focus-visible {
-  outline: 2px solid var(--rc-gold);
+  outline: 2px solid var(--rc-red);
   outline-offset: 6px;
-  border-radius: 12px;
 }
 .rc-mascot__shadow {
   position: absolute;
@@ -61,13 +60,12 @@
 }
 
 /* Pizzicotto quando la clicchi */
+/* Pizzicotto: un colpo secco, come un taglio di regia */
 .rc-mascot--poked .rc-mascot__body {
-  animation: rc-mascot-poke 0.45s var(--ease-fluid);
+  animation: rc-mascot-poke 200ms var(--ease-out);
 }
 @keyframes rc-mascot-poke {
-  0%   { transform: scale(1, 1); }
-  30%  { transform: scale(1.18, 0.82); }
-  60%  { transform: scale(0.92, 1.1); }
+  0%   { transform: scale(1.12, 0.86); }
   100% { transform: scale(1, 1); }
 }
 
@@ -79,14 +77,22 @@
   padding: var(--s-5) var(--s-5) var(--s-4);
   background: var(--rc-bone);
   color: var(--rc-ink);
-  border: 2px solid var(--rc-ink);
-  border-radius: 22px 22px 6px 22px;
-  box-shadow: 0 0 0 2px var(--rc-bone), 0 18px 40px rgba(0, 0, 0, 0.5);
+  border: 0;
+  border-radius: 0;
+  border-left: 6px solid var(--rc-red);
   pointer-events: auto;
   opacity: 0;
-  transform: translateY(12px) scale(0.92);
-  transform-origin: 100% 100%;
-  transition: opacity var(--dur-base) var(--ease-fluid), transform var(--dur-base) var(--ease-fluid);
+  transform: translateY(8px);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+/* Codina del fumetto verso la R: un triangolo pieno, niente curve */
+.rc-mascot__bubble::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: -12px;
+  border-left: 14px solid transparent;
+  border-top: 12px solid var(--rc-bone);
 }
 .rc-mascot__bubble--open {
   opacity: 1;
@@ -97,21 +103,19 @@
   top: 0;
   left: var(--s-5);
   transform: translateY(-50%);
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: var(--rc-red);
+  padding: 4px 10px;
+  border-radius: 0;
+  background: var(--rc-ink);
   color: var(--rc-bone);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: var(--ls-caps-wide);
 }
+/* Mentre parla, il nome diventa la capsula ON AIR del brand */
 .rc-mascot--talking .rc-mascot__name {
-  animation: rc-mascot-wiggle 0.5s ease-in-out infinite;
-}
-@keyframes rc-mascot-wiggle {
-  0%, 100% { transform: translateY(-50%) rotate(-3deg); }
-  50%      { transform: translateY(-50%) rotate(3deg); }
+  background: var(--rc-red);
+  border-radius: 999px;
 }
 .rc-mascot .rc-mascot__text {
   margin: 0;
@@ -119,10 +123,26 @@
   color: var(--rc-ink);
   min-height: 1.45em;
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: var(--fs-body);
   line-height: 1.45;
   text-wrap: pretty;
 }
+.rc-mascot__cta {
+  margin-top: var(--s-3);
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 0;
+  background: var(--rc-red);
+  color: var(--rc-bone);
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: var(--ls-caps-wide);
+  cursor: pointer;
+  transition: background 120ms var(--ease-out);
+}
+.rc-mascot__cta:hover { background: var(--rc-red-deep); }
+.rc-mascot__cta:focus-visible { outline: 2px solid var(--rc-red); outline-offset: 2px; }
 .rc-mascot__close {
   position: absolute;
   top: 6px;
@@ -138,7 +158,7 @@
   cursor: pointer;
 }
 .rc-mascot__close:hover { color: var(--rc-ink); }
-.rc-mascot__close:focus-visible { outline: 2px solid var(--rc-blue); border-radius: 4px; }
+.rc-mascot__close:focus-visible { outline: 2px solid var(--rc-red); }
 
 /* ── Mini comandi: suoni on/off, nascondi ── */
 .rc-mascot__tools {
@@ -154,20 +174,22 @@
   opacity: 1;
   transform: none;
 }
+/* Comandi in CAPS, niente icone (regola del brand) */
 .rc-mascot__tool {
-  width: 28px;
-  height: 28px;
-  padding: 0;
+  padding: 5px 8px;
   border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  background: var(--bg-elev);
-  color: var(--fg1);
-  display: grid;
-  place-items: center;
+  border-radius: 2px;
+  background: var(--rc-ink);
+  color: var(--fg2);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--ls-caps-wide);
   cursor: pointer;
+  transition: color 120ms var(--ease-out), border-color 120ms var(--ease-out);
 }
-.rc-mascot__tool:hover { border-color: var(--rc-red); }
-.rc-mascot__tool:focus-visible { outline: 2px solid var(--rc-gold); outline-offset: 2px; }
+.rc-mascot__tool:hover { color: var(--rc-red); border-color: var(--rc-red); }
+.rc-mascot__tool:focus-visible { outline: 2px solid var(--rc-red); outline-offset: 2px; }
 
 /* Durante il tutorial la R si fa da parte */
 body:has(.tutorial-overlay) .rc-mascot { opacity: 0; visibility: hidden; }

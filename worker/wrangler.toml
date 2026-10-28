@@ -1,0 +1,13 @@
+# Radio Carducci — Worker degli account
+# Prima volta: vedi LEGGIMI.md (serve creare il KV e incollare qui il suo id)
+name = "radiocarducci-account"
+main = "account-worker.js"
+compatibility_date = "2025-01-01"
+
+[[kv_namespaces]]
+binding = "ACCOUNTS"
+id = "INCOLLA_QUI_ID_DEL_KV"
+
+[vars]
+# Siti che possono usare il login, separati da virgola
+ALLOWED_ORIGINS = "https://radiocarducci.com,https://www.radiocarducci.com,http://localhost:8000"
