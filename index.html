@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/logo-rc-mark-bone.svg">
   <link rel="stylesheet" href="colors_and_type.css?v=6">
   <link rel="stylesheet" href="site.css?v=42">
-  <link rel="stylesheet" href="rc-plus.css?v=6">
+  <link rel="stylesheet" href="rc-plus.css?v=7">
   <link rel="stylesheet" href="mascotte.css?v=3">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 </head>
@@ -45,6 +45,7 @@
         <li><a href="#podcast">Podcast</a></li>
         <li><a href="#team">Team</a></li>
         <li><a href="#studi">Studi</a></li>
+        <li><a href="#angolo">Angolino</a></li>
         <li data-rc-section="preferiti"><a href="#preferiti">Preferiti</a></li>
         <li data-rc-section="dediche"><a href="#dediche">Dediche</a></li>
         <li><a href="#manifesto">Chi siamo</a></li>
@@ -68,6 +69,7 @@
     <a href="#podcast">Podcast</a>
     <a href="#team">Team</a>
     <a href="#studi">Studi</a>
+    <a href="#angolo">Angolino</a>
     <a href="#preferiti" data-rc-section="preferiti">Preferiti</a>
     <a href="#dediche" data-rc-section="dediche">Dediche</a>
     <a href="#manifesto">Chi siamo</a>
@@ -192,6 +194,39 @@
     </div>
     <div class="team__grid">
       <div class="empty-state">Caricamento team in corso...</div>
+    </div>
+  </section>
+
+  <section id="angolo" class="fade-in" role="region" aria-label="Emergenza Emergenti e Cose da Nerd">
+    <div class="section-label fade-in">
+      <span>L'ANGOLINO · EMERGENTI &amp; NERD</span>
+      <span>PUNTATE · CANOVACCI</span>
+    </div>
+
+    <div class="angolo" data-prog="emergenza-emergenti">
+      <div class="angolo__switch" role="tablist" aria-label="Scegli il programma">
+        <button class="angolo__tab angolo__tab--active" role="tab" aria-selected="true" data-prog="emergenza-emergenti" id="angolo-tab-ee">EMERGENZA EMERGENTI</button>
+        <button class="angolo__tab" role="tab" aria-selected="false" data-prog="cose-da-nerd" id="angolo-tab-nerd">COSE DA NERD</button>
+      </div>
+
+      <div class="angolo__stage">
+        <canvas class="angolo__viz" aria-hidden="true"></canvas>
+        <div class="angolo__head">
+          <h2 class="angolo__title" data-rise>emergenza <em>emergenti.</em></h2>
+          <p class="angolo__desc">Gli artisti che nessuno conosce ancora. Intervistati qui, con le loro canzoni. Premi play: tutto quello che vedi si muove con la musica.</p>
+        </div>
+      </div>
+
+      <div class="angolo__cols">
+        <div class="angolo__col">
+          <div class="angolo__col-label">PUNTATE</div>
+          <ol class="angolo__eps" id="angolo-eps"><li class="angolo__empty">Caricamento puntate...</li></ol>
+        </div>
+        <div class="angolo__col">
+          <div class="angolo__col-label">CANOVACCI</div>
+          <ol class="angolo__docs" id="angolo-docs"><li class="angolo__empty">Caricamento canovacci...</li></ol>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -734,6 +769,7 @@
   <script src="rc-lobby.js?v=1"></script>
   <script src="rc-focus.js?v=2"></script>
   <script src="rc-plus.js?v=7"></script>
+  <script src="rc-angolo.js?v=1"></script>
   <script src="mascotte-frasi.js?v=3"></script>
   <script src="mascotte.js?v=6"></script>
   <script src="rc-account.js?v=3"></script>

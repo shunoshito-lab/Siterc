@@ -1,0 +1,49 @@
+{
+ "programma": "cose-da-nerd",
+ "titolo": "Demoscene",
+ "data": "2026-04-08",
+ "conduzione": "Simone e Marta",
+ "ospite": "",
+ "intro": "Cinque talk, una canzone dopo ognuno. (nessun ospite: ce la caviamo da soli)",
+ "blocchi": [
+  { "tipo": "talk", "titolo": "Cos'è la Demoscene: arte, codice e sfida",
+    "testo": [
+     "Immaginate un programma che pesa meno di una foto sul telefono, magari 64 kilobyte, e che quando lo avviate produce animazioni in 3D, musica originale ed effetti visivi, tutto in tempo reale. Nessun video preregistrato: è codice puro che genera quello che vedete in quel momento.",
+     "Questo è una demo, e la comunità internazionale che le crea si chiama Demoscene. (si pronuncia demo-sceen)",
+     "È una sottocultura informatica nata negli anni Ottanta: non si vende niente, non c'è un modello di business. Chi fa la demo più bella, più efficiente e più sorprendente vince, e il premio è il rispetto della comunità.",
+     "Programmatori, musicisti e grafici lavorano in gruppo, e il risultato deve far dire: ma com'è possibile farlo con così poco?"
+    ],
+    "brano": "LVTHER - One Look" },
+  { "tipo": "talk", "titolo": "Le origini: dai crack intro ai capolavori digitali",
+    "testo": [
+     "Si torna agli anni Ottanta, quando il Commodore 64 e poi l'Amiga entrano nelle case di mezzo mondo.",
+     "I giochi uscivano su floppy con protezioni anti-copia, e gruppi di appassionati, i cracker, le rimuovevano. Il punto però è cosa facevano dopo: aggiungevano all'inizio del gioco una schermata con il nome del gruppo, un logo animato e un po' di musica. Si chiamavano crack intro: la firma digitale del gruppo.",
+     "Quelle intro diventano presto una gara a sé, slegata dal gioco che seguiva. Da lì nasce la demo: una presentazione audiovisiva autonoma, senza scopo pratico.",
+     "Tra la fine degli Ottanta e i primi Novanta la scena si separa del tutto dalla pirateria e diventa indipendente, con le sue regole, i suoi eventi e la sua etica."
+    ],
+    "brano": "Grabbitz - RIP" },
+  { "tipo": "talk", "titolo": "I demoparty: le gare dal vivo",
+    "testo": [
+     "Il cuore della Demoscene sono i demoparty: eventi fisici dove i gruppi si incontrano e presentano le creazioni davanti a una platea.",
+     "Si portano i computer, ci si siede in un palazzetto o in una scuola e si gareggia per categorie: demo migliore, intro da 64 kilobyte, pixel art, musica fatta con i chip dei vecchi computer. Ogni categoria ha regole rigide su dimensioni e piattaforme.",
+     "Il più famoso è Assembly, a Helsinki, dal luglio 1992: la prima edizione radunò oltre 700 persone, oggi riempie intere arene. (in Finlandia il Commodore era ovunque)",
+     "Le demo vengono quasi sempre create sul posto, sotto scadenza e in competizione diretta. Una jam session, ma di codice."
+    ],
+    "brano": "Ephixa & Stephen Walking - Matches (Subtact Remix)" },
+  { "tipo": "talk", "titolo": "Il riconoscimento UNESCO: la prima cultura digitale",
+    "testo": [
+     "Nel 2020 la Finlandia inserisce la Demoscene nella lista nazionale del patrimonio culturale immateriale. È la prima volta che una cultura digitale viene riconosciuta così.",
+     "Patrimonio culturale immateriale è la categoria UNESCO di tradizioni e saperi tramandati: il flamenco, la dieta mediterranea, il canto a tenore sardo. (sì, ora anche le demo da 64 kilobyte)",
+     "Dopo la Finlandia hanno avviato percorsi simili Germania, Polonia e Paesi Bassi.",
+     "Il motivo del riconoscimento non è il prodotto finale ma la trasmissione del sapere tecnico e artistico tra generazioni, tenuta in vita per passione e senza scopo commerciale."
+    ],
+    "brano": "Conro - Remedy" },
+  { "tipo": "talk", "titolo": "Outro",
+    "testo": [
+     "La Demoscene esiste da decenni, è enormemente influente, e quasi nessuno ne ha mai sentito parlare. Eppure molti di chi oggi lavora nei videogiochi, nella musica elettronica e nell'animazione digitale viene da lì.",
+     "C'è qualcosa di profondamente nerd in tutto questo, nel senso migliore: una comunità che si riunisce per il piacere di spingere una macchina oltre i suoi limiti.",
+     "Cercate su YouTube demoscene 64k, e preparatevi a chiedervi più volte come sia possibile."
+    ],
+    "brano": "Subtact & She Is Jules - Bite" }
+ ]
+}

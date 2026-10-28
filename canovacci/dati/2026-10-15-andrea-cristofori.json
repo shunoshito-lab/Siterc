@@ -1,0 +1,84 @@
+{
+ "programma": "emergenza-emergenti",
+ "titolo": "Andrea Cristofori",
+ "data": "2026-10-15",
+ "conduzione": "",
+ "ospite": "Andrea Cristofori",
+ "intro": "Stagione 3, ritorno dopo l'intervista di marzo. Cantautore e tecnico del suono, Firenze. 30 minuti, 5 talk, una canzone dopo ognuno.",
+ "blocchi": [
+  { "tipo": "talk", "titolo": "Apertura e radio",
+    "testo": [
+     "Saluti e presentazione del programma: terza stagione, siamo tornati. (nessuno lo aveva chiesto, ma tant'è)",
+     "Presentazione ospite, formalità veloci: chi è, di dove è, cosa fa nella vita. Musicista, cantautore, tecnico del suono, Firenze. (trenta secondi, non fare il TG)",
+     "Ci siamo già visti l'anno scorso: come ti sembra la radio adesso? Cosa è cambiato da marzo? (risposta prevista: bellissima)"
+    ],
+    "brano": "Dalla rotazione RC, da scegliere" },
+  { "tipo": "talk", "titolo": "La carriera: prima e dopo",
+    "testo": [
+     "Vent'anni dietro al mixer come tecnico del suono: com'è stare dall'altra parte del microfono?",
+     "Il primo singolo è del 2019, ma Vorrei venisse il vento nasce da un testo del 1998: cosa vuol dire riprendere in mano una canzone dopo oltre vent'anni? (domanda lunga: fai finta di averla improvvisata)",
+     "Suoni e produci quasi tutto da solo, piano, chitarre, basso, batteria e voce: lavori ancora così? (spoiler: sì)",
+     "Tra l'Andrea del 2019 e quello di oggi, cosa è cambiato come autore e come produttore?",
+     "Nel 2021 hai fatto la colonna sonora di Ricordo d'un burattino: scrivere per un film è diverso dallo scrivere per te? (se non hai visto il film, annuisci)"
+    ],
+    "brano": "Dalla rotazione RC, da scegliere" },
+  { "tipo": "talk", "titolo": "Le canzoni da non dimenticare",
+    "testo": [
+     "Vorrei venisse il vento, 2019: il primo singolo, un augurio per la fine dei momenti difficili. Cosa significa per te oggi?",
+     "Pioggia cadrà, 2022: un duetto sull'amore a distanza. Com'è nata? Chi canta con te? (attenzione: può parlare per dieci minuti)",
+     "Sei, 2023, e l'album Come stai: perché questo titolo? Di cosa parlano? (sei cosa? completa la frase)",
+     "Se uno sconosciuto ascoltasse una sola tua canzone, quale gli faresti sentire e perché? (risposta ufficiale: l'ultima. Insisti)"
+    ],
+    "brano": "Andrea Cristofori - Vorrei venisse il vento (2019)" },
+  { "tipo": "talk", "titolo": "Le ultime uscite",
+    "testo": [
+     "Il 2026 è stato un anno pieno di singoli: Sospesa, Occhi negli occhi, Quello che resta, Splendida follia, Gocce, Come musica, Fuori dal tempo, La felicità, Sarà luce. C'è un filo che li lega? (il filo è: ne ha fatti nove)",
+     "Tanti con un featuring, da Miriam Magalla a Viola, Mariangela Sichera e Takako: come scegli le voci? (li colleziona come figurine?)",
+     "Con Viola hai lavorato più volte, anche in Velitudine del 2025: come nasce l'intesa? (tono professionale, niente sguardi)",
+     "Sarà luce con Takako è l'ultima uscita: di cosa parla? (chiedi anche perché sarà e non è)",
+     "Un album o un EP che raccolga questi singoli? Cosa bolle in pentola? (se dice vedremo, sorridi e vai avanti)"
+    ],
+    "brano": "Andrea Cristofori feat. Takako - Sarà luce (2026)" },
+  { "tipo": "talk", "titolo": "Saluti",
+    "testo": [
+     "Dove trovarti: Spotify, social, YouTube. (ripetilo due volte: nessuno ascolta la prima)",
+     "Prossime uscite e prossimi live. (le uscite ormai si contano a settimane)",
+     "Domanda a sorpresa: se torni anche l'anno prossimo, di cosa parliamo? (se risponde boh, avete finito)",
+     "Saluti e grazie."
+    ],
+    "brano": "Dalla rotazione RC, da scegliere" },
+  { "tipo": "scheda", "titolo": "Andrea Cristofori",
+    "sottotitolo": "Cantautore, produttore e tecnico del suono. Firenze. (un uomo, uno studio, nessun testimone) 25 singoli, 2 EP, 2 album, 1 colonna sonora. (chiedigli quando dorme)",
+    "sezioni": [
+     { "titolo": "Chi è", "voci": [
+       "Fiorentino. Polistrumentista, cantautore, produttore e tecnico del suono da vent'anni. (l'ispettorato del lavoro è in allerta)",
+       "Pianoforte, tastiere e chitarra, ma suona anche basso e batteria.",
+       "Certificato Avid Pro Tools HD Operator: registra, mixa e masterizza nel suo studio, quasi tutto da solo.",
+       "Canta in italiano, stile cantautorale. Ogni singolo esce anche in versione strumentale."
+     ] },
+     { "titolo": "La storia in breve", "voci": [
+       "1998: un'amica torinese, Paola Mantoan, gli regala il testo di Vorrei venisse il vento. (consegna in 21 anni, gratis)",
+       "2019: primo singolo, Vorrei venisse il vento. Registrato in un giorno, tutti gli strumenti suonati da lui.",
+       "2020: EP Sul ponte del tempo, con Lisa Primavera, e singolo Rimani qui.",
+       "2021: colonna sonora di Ricordo d'un burattino. (il burattino ha il cachet più basso)",
+       "2022: album Caos e cosmo e singolo Pioggia cadrà.",
+       "2023: album Come stai e singolo Sei.",
+       "2025: Velitudine con Viola e Simone Gianlorenzi, Domani torno da te, Babbo, La magia del Natale.",
+       "2026: nove singoli, uno dietro l'altro."
+     ] },
+     { "titolo": "Le uscite 2026", "voci": [
+       "Sospesa", "Occhi negli occhi, feat. Miriam Magalla", "Quello che resta", "Splendida follia", "Gocce",
+       "Come musica, feat. Viola", "Fuori dal tempo", "La felicità, feat. Mariangela Sichera",
+       "Sarà luce, feat. Takako, ultima uscita"
+     ] },
+     { "titolo": "Spunti da rilanciare", "voci": [
+       "Definisce Vorrei venisse il vento una macchina del tempo: canzone del 1998, riarrangiata nel 2019 con il suono dei dischi anni Novanta che ama. (manca solo la DeLorean)",
+       "I provini di allora sono rimasti in un cassetto, come un diario personale.",
+       "Il tempo torna nei titoli: Sul ponte del tempo, Fuori dal tempo. Pioggia cadrà parla di amore oltre le distanze di tempo e spazio.",
+       "Vorrei venisse il vento è dedicata al reparto di Rianimazione dell'ospedale Meyer di Firenze.",
+       "Tecnico del suono e cantautore insieme: si sente prima uno o l'altro?"
+     ] },
+     { "titolo": "Dove ascoltarlo", "voci": ["Spotify, Apple Music e YouTube, canale Andrea Cristofori."] }
+    ] }
+ ]
+}

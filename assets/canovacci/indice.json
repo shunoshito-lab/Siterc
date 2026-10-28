@@ -1,0 +1,34 @@
+{
+ "canovacci": [
+  {
+   "file": "2026-10-15-andrea-cristofori.pdf",
+   "programma": "emergenza-emergenti",
+   "titolo": "Andrea Cristofori",
+   "data": "2026-10-15",
+   "ospite": "Andrea Cristofori",
+   "conduzione": "",
+   "talk": [
+    "Apertura e radio",
+    "La carriera: prima e dopo",
+    "Le canzoni da non dimenticare",
+    "Le ultime uscite",
+    "Saluti"
+   ]
+  },
+  {
+   "file": "2026-04-08-demoscene.pdf",
+   "programma": "cose-da-nerd",
+   "titolo": "Demoscene",
+   "data": "2026-04-08",
+   "ospite": "",
+   "conduzione": "Simone e Marta",
+   "talk": [
+    "Cos'è la Demoscene: arte, codice e sfida",
+    "Le origini: dai crack intro ai capolavori digitali",
+    "I demoparty: le gare dal vivo",
+    "Il riconoscimento UNESCO: la prima cultura digitale",
+    "Outro"
+   ]
+  }
+ ]
+}
