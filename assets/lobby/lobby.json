@@ -1,0 +1,193 @@
+{
+ "tracks": [
+  {
+   "file": "l01.mp3",
+   "bpm": 113,
+   "energy": 0.59,
+   "dur": 147,
+   "mix": "lobby"
+  },
+  {
+   "file": "l02.mp3",
+   "bpm": 98,
+   "energy": 0.32,
+   "dur": 184,
+   "mix": "lobby"
+  },
+  {
+   "file": "l03.mp3",
+   "bpm": 60,
+   "energy": 0.23,
+   "dur": 152,
+   "mix": "lobby"
+  },
+  {
+   "file": "l04.mp3",
+   "bpm": 76,
+   "energy": 0.27,
+   "dur": 217,
+   "mix": "lobby"
+  },
+  {
+   "file": "l05.mp3",
+   "bpm": 116,
+   "energy": 0.79,
+   "dur": 121,
+   "mix": "lobby"
+  },
+  {
+   "file": "l06.mp3",
+   "bpm": 128,
+   "energy": 0.72,
+   "dur": 123,
+   "mix": "lobby"
+  },
+  {
+   "file": "l07.mp3",
+   "bpm": 130,
+   "energy": 0.77,
+   "dur": 161,
+   "mix": "lobby"
+  },
+  {
+   "file": "l08.mp3",
+   "bpm": 110,
+   "energy": 0.71,
+   "dur": 256,
+   "mix": "lobby"
+  },
+  {
+   "file": "l09.mp3",
+   "bpm": 86,
+   "energy": 0.54,
+   "dur": 174,
+   "mix": "lobby"
+  },
+  {
+   "file": "l10.mp3",
+   "bpm": 113,
+   "energy": 0.65,
+   "dur": 124,
+   "mix": "lobby"
+  },
+  {
+   "file": "l11.mp3",
+   "bpm": 84,
+   "energy": 0.5,
+   "dur": 177,
+   "mix": "lobby"
+  },
+  {
+   "file": "l12.mp3",
+   "bpm": 94,
+   "energy": 0.4,
+   "dur": 213,
+   "mix": "lobby"
+  },
+  {
+   "file": "l13.mp3",
+   "bpm": 100,
+   "energy": 0.6,
+   "dur": 117,
+   "mix": "lobby"
+  },
+  {
+   "file": "l14.mp3",
+   "bpm": 76,
+   "energy": 0.43,
+   "dur": 284,
+   "mix": "lobby"
+  },
+  {
+   "file": "l15.mp3",
+   "bpm": 63,
+   "energy": 0.3,
+   "dur": 167,
+   "mix": "lobby"
+  },
+  {
+   "file": "l16.mp3",
+   "bpm": 95,
+   "energy": 0.55,
+   "dur": 215,
+   "mix": "lobby"
+  },
+  {
+   "file": "l17.mp3",
+   "bpm": 62,
+   "energy": 0.34,
+   "dur": 116,
+   "mix": "lobby"
+  },
+  {
+   "file": "l18.mp3",
+   "bpm": 86,
+   "energy": 0.36,
+   "dur": 174,
+   "mix": "lobby"
+  },
+  {
+   "file": "l19.mp3",
+   "bpm": 84,
+   "energy": 0.46,
+   "dur": 105,
+   "mix": "lobby"
+  },
+  {
+   "file": "n20.mp3",
+   "bpm": 102,
+   "energy": 0.58,
+   "dur": 183,
+   "mix": "nintendo"
+  },
+  {
+   "file": "n21.mp3",
+   "bpm": 84,
+   "energy": 0.29,
+   "dur": 97,
+   "mix": "nintendo"
+  },
+  {
+   "file": "n22.mp3",
+   "bpm": 101,
+   "energy": 0.53,
+   "dur": 149,
+   "mix": "nintendo"
+  },
+  {
+   "file": "n23.mp3",
+   "bpm": 120,
+   "energy": 0.61,
+   "dur": 134,
+   "mix": "nintendo"
+  },
+  {
+   "file": "n24.mp3",
+   "bpm": 137,
+   "energy": 0.73,
+   "dur": 176,
+   "mix": "nintendo"
+  },
+  {
+   "file": "n25.mp3",
+   "bpm": 63,
+   "energy": 0.32,
+   "dur": 263,
+   "mix": "nintendo"
+  },
+  {
+   "file": "n26.mp3",
+   "bpm": 109,
+   "energy": 0.52,
+   "dur": 198,
+   "mix": "nintendo"
+  },
+  {
+   "file": "n27.mp3",
+   "bpm": 120,
+   "energy": 0.62,
+   "dur": 183,
+   "mix": "nintendo"
+  }
+ ]
+}

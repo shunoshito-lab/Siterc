@@ -112,10 +112,9 @@
   font-weight: 800;
   letter-spacing: var(--ls-caps-wide);
 }
-/* Mentre parla, il nome diventa la capsula ON AIR del brand */
+/* Mentre parla, il nome diventa rosso: rettangolo, come il badge LIVE */
 .rc-mascot--talking .rc-mascot__name {
   background: var(--rc-red);
-  border-radius: 999px;
 }
 .rc-mascot .rc-mascot__text {
   margin: 0;

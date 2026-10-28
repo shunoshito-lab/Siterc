@@ -626,3 +626,116 @@
 @media (max-width: 520px) {
   #team .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* ── ESPLORA: ora e almanacco ──────────────────────────────── */
+.rc-focus {
+  position: fixed;
+  left: max(var(--s-5), env(safe-area-inset-left, 0px));
+  bottom: calc(72px + var(--s-5) + env(safe-area-inset-bottom, 0px));
+  z-index: 61;
+  width: min(380px, calc(100vw - 32px));
+  padding: var(--s-4) var(--s-5) var(--s-4);
+  background: var(--rc-ink);
+  border: 1px solid var(--line-strong);
+  border-left: 6px solid var(--rc-red);
+  color: var(--fg1);
+}
+.rc-focus__clock {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 64px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.rc-focus__date,
+.rc-focus__label,
+.rc-focus__src {
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: var(--ls-caps-wide);
+  color: var(--fg3);
+}
+.rc-focus__date { margin-top: var(--s-2); }
+.rc-focus__entry {
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+.rc-focus__label { color: var(--rc-red); }
+.rc-focus__year {
+  margin-left: var(--s-2);
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  color: var(--fg1);
+}
+.rc-focus .rc-focus__text {
+  margin: var(--s-2) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  color: var(--fg1);
+  text-wrap: pretty;
+}
+.rc-focus__src { margin-top: var(--s-3); font-size: 9px; }
+.rc-focus--cut .rc-focus__entry { animation: rc-focus-cut 240ms var(--ease-out); }
+@keyframes rc-focus-cut { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 768px) {
+  .rc-focus { bottom: calc(64px + 64px + var(--s-3) + env(safe-area-inset-bottom, 0px)); padding: var(--s-3) var(--s-4); }
+  .rc-focus__clock { font-size: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { .rc-focus--cut .rc-focus__entry { animation: none; } }
+
+/* ── BADGE LIVE: rettangolo, VU meter quando la diretta suona ── */
+.rc-live__vu { display: none; align-items: flex-end; gap: 1px; height: 8px; }
+.rc-live__vu i {
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: var(--rc-bone);
+  transform-origin: 50% 100%;
+  transform: scaleY(0.3);
+}
+body.rc-on-air .rc-live:has(.rc-live__vu)::before { display: none; }
+body.rc-on-air .rc-live__vu { display: inline-flex; }
+body.rc-on-air .rc-live:has(.rc-live__vu) {
+  animation: none;
+  box-shadow: 0 0 0 1px var(--rc-red), 0 0 18px rgba(219, 56, 73, 0.45);
+}
+/* L'Esplora spegne sfondi, bordi e colori di tutto (body.theme-explore *):
+   l'almanacco deve restare leggibile */
+body.theme-explore .rc-focus { background-color: var(--rc-ink) !important; border-color: var(--line-strong) !important; border-left-color: var(--rc-red) !important; }
+body.theme-explore .rc-focus * { color: var(--fg1) !important; }
+body.theme-explore .rc-focus .rc-focus__date,
+body.theme-explore .rc-focus .rc-focus__src { color: var(--fg3) !important; }
+body.theme-explore .rc-focus .rc-focus__label { color: var(--rc-red) !important; }
+body.theme-explore .rc-focus .rc-focus__entry { border-top-color: var(--line) !important; }
+
+/* ── PLAYER BAR: copertina vera o niente ───────────────────── */
+.player-bar .player-bar__cover-wrapper,
+.player-bar.player-bar--active .player-bar__cover-wrapper {
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 0;
+  background: var(--rc-ink-deep);
+}
+.rc-cover-vu {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 40%;
+}
+.rc-cover-vu i {
+  display: block;
+  width: 3px;
+  height: 100%;
+  background: var(--fg3);
+  transform-origin: 50% 100%;
+  transform: scaleY(0.25);
+}
+body.rc-on-air .rc-cover-vu i { background: var(--rc-red); }
+.np-overlay__cover-placeholder .rc-cover-vu { gap: 8px; }
+.np-overlay__cover-placeholder .rc-cover-vu i { width: 10px; }

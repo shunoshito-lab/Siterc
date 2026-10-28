@@ -8,18 +8,17 @@
    ============================================================ */
 window.RC_FRASI = {
   intro: [
-    'ciao. sono la R. guardo tutto, letteralmente.',
+    'ciao. sono la R di radio carducci.',
     'eccoti. io sono la R, la parte di radio carducci che non sta mai zitta.',
     'benvenuto. se ti perdi, cliccami. se non ti perdi, cliccami lo stesso.',
-    'sono la R. ho un occhio solo e lo uso tutto per te.',
+    'sono la R. ho un occhio solo, ma vede benissimo il palinsesto.',
     'ciao. qui si ascolta, si scrolla e ogni tanto si commenta. il commento sono io.',
     'piacere, R. la C è in pausa.'
   ],
   ritorno: [
-    'di nuovo tu. bene, mi mancavano i tuoi click.',
+    'di nuovo qui. bene, la diretta è accesa.',
     'bentornato. non è cambiato niente. a parte tutto.',
-    'ah, sei tornato. lo sapevo. ti avevo visto arrivare.',
-    'ciao {nome}. sei qui da poco e già mi guardi così.',
+    'ciao {nome}. bentornato in radio.',
     'ri-ciao. la radio è rimasta accesa anche senza di te. ci abbiamo provato.'
   ],
   mattina: [
@@ -28,48 +27,39 @@ window.RC_FRASI = {
     'mattina presto e sei già qui. qualcuno ha una verifica.'
   ],
   pomeriggio: [
-    'pomeriggio. il momento giusto per non fare i compiti con stile.',
-    'sono le {ora}. compiti fatti? non rispondere, si vede.',
+    'pomeriggio. un po\' di musica mentre studi non fa male.',
+    'sono le {ora}. pausa dai compiti? metti la diretta.',
     'pomeriggio lento. noi in diretta lo rendiamo meno lento. un po\'.'
   ],
   sera: [
     'sera. la radio di sera è un\'altra cosa. fidati.',
     'sono le {ora} e sei su una webradio. rispetto.',
-    'buonasera. domani c\'è scuola, ma non è un problema nostro.'
+    'buonasera. domani c\'è scuola: un brano e poi a dormire.'
   ],
   notte: [
     'sono le {ora}. vai a dormire. dopo questo brano però.',
-    'di notte qui non c\'è nessuno. a parte me. e adesso te.',
     'orario da insonni. benvenuto nel club.'
   ],
   weekend: [
     'è weekend e sei sul sito della radio della scuola. ci vuoi bene, ammettilo.',
-    'sabato, domenica, chi se ne importa. qui si va in onda lo stesso.'
+    'sabato o domenica, qui si va in onda lo stesso.'
   ],
   poke: [
-    'ehi. non si tocca.',
     'clicca su «ascolta ora» e vedi come ballo.',
     'ho un occhio solo ma ci vedo benissimo.',
     'se mi clicchi ancora divento rossa. ah no, lo sono già.',
     'scendi giù: podcast, team, studi, dediche. c\'è roba.',
-    'mi stai cliccando da un po\'. ne vuoi parlare.',
     'sono un logo con un occhio. non ti aspettare grandi discorsi.',
     'ok, mi hai trovato. adesso che facciamo.',
     'clic registrato. non so a cosa serva, ma è registrato.',
-    'smettila. no dai, continua.',
     'il palinsesto si aggiorna da solo. magia. più o meno.',
     'lo sai che ci sono anche i podcast. sì, quelli che non hai ascoltato.',
     'io qui ci vivo. affitto zero, wifi della scuola.',
-    'cliccare la mascotte non dà punti. ma è bello lo stesso.',
     'un altro clic e ti dedico una canzone. brutta.',
-    'mi piace quando mi clicchi. non dirlo a nessuno.',
-    'sei il mio clic preferito di oggi. non c\'era molta concorrenza.',
-    'se cerchi il tasto per spegnermi, è la freccia. ma non lo fai.',
-    'pensavo fossi un cursore come gli altri. mi sbagliavo.',
-    'posso fare due cose: guardarti e parlare. le sto facendo entrambe.'
+    'se ti do fastidio, c\'è il tasto NASCONDI qui sotto.',
+    'il palinsesto lo trovi più giù. lo dico perché lo cercano tutti.'
   ],
   idle: [
-    'sei ancora lì. ti vedo, anche se non muovi il mouse.',
     'pausa lunga. se ti sei addormentato, la diretta ti sveglia.',
     'non muovi niente da un po\'. sto iniziando a preoccuparmi.',
     'silenzio. per una radio è quasi offensivo.',
@@ -93,7 +83,7 @@ window.RC_FRASI = {
     'qui ci sono le puntate registrate. registrate, non rifilate.'
   ],
   '#team': [
-    'questa è la redazione. sì, dal vivo siamo ancora più belli.',
+    'questa è la redazione. clicca su una persona per sapere cosa fa.',
     'il team. ventotto persone, un microfono alla volta.',
     'chi c\'è dietro il microfono. e dietro il mixer. e dietro le scuse.'
   ],
@@ -104,13 +94,13 @@ window.RC_FRASI = {
   ],
   '#dediche': [
     'vuoi dedicare una canzone a qualcuno. coraggio, il nome lo puoi anche non mettere.',
-    'le dediche. il modo più vigliacco e più bello di dire le cose.',
+    'le dediche. un modo gentile di dire le cose.',
     'dedica una canzone. se va male, la colpa è della canzone.'
   ],
   '#preferiti': [
     'i brani più amati del wrapped. metti un cuore, che a noi fa piacere.',
     'i preferiti. la prova che hai buon gusto. o che ci provi.',
-    'qui finiscono le canzoni che salvi. io le guardo tutte. giudico in silenzio.'
+    'qui finiscono le canzoni che salvi. restano tue.'
   ],
   '#manifesto': [
     'chi siamo. studenti, un microfono e decisamente troppe idee.',
@@ -119,7 +109,6 @@ window.RC_FRASI = {
   ],
   live: [
     'sei in diretta. alza il volume, ballo anch\'io.',
-    'in onda. senti come vibro.',
     'diretta partita. da adesso ogni errore è in diretta.',
     'ok, ci sei. adesso non spegnere a metà brano, è maleducazione.',
     'diretta accesa. io ballo male, ma ci metto impegno.'
@@ -191,7 +180,7 @@ window.RC_FRASI = {
   branoSalvato: [
     'c\'è {titolo}. l\'hai salvato tu. adesso non hai scuse.',
     'in onda {titolo}, di {artista}. è nei tuoi preferiti: ascoltalo in diretta, non ti costa niente.',
-    'guarda chi c\'è: {artista}. lo hai tra i salvati. coincidenza? no, ti spio.',
+    'guarda chi c\'è: {artista}. ce l\'hai tra i salvati.',
     '{titolo} in diretta adesso. ce l\'hai nei cuori. fai i conti.',
     'brano dei tuoi: {titolo}. se non lo ascolti adesso, quando.'
   ],
@@ -219,7 +208,7 @@ window.RC_FRASI = {
 
   // il mouse va verso l'alto, come per chiudere la scheda
   uscita: [
-    'aspetta. te ne vai proprio adesso.',
+    'prima di andare: la diretta continua anche quando chiudi.',
     'un attimo. la diretta non finisce quando chiudi la scheda.',
     'stai per andartene. va bene, ma prima salva un brano.',
     'ehi, dove vai. qui c\'è ancora roba.'
@@ -234,6 +223,6 @@ window.RC_FRASI = {
   login: [
     'fatto. da adesso mi ricordo di te, anche su un altro telefono.',
     'accesso fatto, {nome}. i tuoi preferiti adesso viaggiano con te.',
-    'ciao {nome}. il codice segnatelo: io me lo ricordo, tu no.'
+    'ciao {nome}. il codice segnatelo: noi non possiamo vederlo.'
   ]
 };

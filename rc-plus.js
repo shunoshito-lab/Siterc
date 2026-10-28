@@ -205,44 +205,51 @@
     });
   }
 
-  // ═══════════════════════════════════════════════════════════════
-  // MOLIGA SENZA ACCENTI — il font non ha le lettere accentate:
-  // si scrive la vocale con l'apostrofo (è → e'), come fa già NowPlaying
-  // ═══════════════════════════════════════════════════════════════
-  const ACCENTI = { 'à': "a'", 'è': "e'", 'é': "e'", 'ì': "i'", 'ò': "o'", 'ù': "u'",
-    'À': "A'", 'È': "E'", 'É': "E'", 'Ì': "I'", 'Ò': "O'", 'Ù': "U'" };
-  const RE_ACCENTI = /[àèéìòùÀÈÉÌÒÙ]/g;
-  const mega = window.RCMega = str => String(str == null ? '' : str).replace(RE_ACCENTI, c => ACCENTI[c]);
-  const MOLIGA = '.hero__headline, .team-card__initial, .dediche__aside-title, .dediche__success-text, ' +
-    '.preloader__title, .rc-bumper__txt, .studi__headline';
+  // Accenti in Moliga: ci pensa rc-moliga.js (qui serve solo per i bumper)
+  const mega = str => (window.RCMega ? window.RCMega(str) : String(str));
 
-  function fixMoliga(root) {
-    const els = root.matches && root.matches(MOLIGA) ? [root] : [];
-    (root.querySelectorAll ? root.querySelectorAll(MOLIGA) : []).forEach(e => els.push(e));
-    els.forEach(el => {
-      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-      let n;
-      while ((n = w.nextNode())) {
-        if (RE_ACCENTI.test(n.nodeValue)) { RE_ACCENTI.lastIndex = 0; n.nodeValue = mega(n.nodeValue); }
-        RE_ACCENTI.lastIndex = 0;
-      }
+  // ═══════════════════════════════════════════════════════════════
+  // BADGE LIVE VIVI — con la diretta accesa: "IN DIRETTA ORA" e un
+  // VU meter a 3 barre che segue il volume vero (RCAudioReactive)
+  // ═══════════════════════════════════════════════════════════════
+  function initLiveBadges() {
+    const audio = document.getElementById('rc-audio');
+    if (!audio) return;
+    const badges = Array.from(document.querySelectorAll('.rc-live'))
+      .filter(b => /^(LIVE|ON AIR)$/i.test(b.textContent.trim()) && !b.closest('.studi'));
+    badges.forEach(b => {
+      b.dataset.off = b.textContent.trim();
+      b.innerHTML = `<span class="rc-live__vu" aria-hidden="true"><i></i><i></i><i></i></span><span class="rc-live__txt">${b.dataset.off}</span>`;
     });
-  }
-
-  function initMoliga() {
-    fixMoliga(document.body);
-    // titoli che cambiano da soli (headline a rotazione, config da R2, team caricato dopo)
-    new MutationObserver(list => {
-      list.forEach(m => {
-        const t = m.type === 'characterData' ? m.target.parentElement : m.target;
-        if (t && t.closest && t.closest(MOLIGA)) fixMoliga(t.closest(MOLIGA));
-        else m.addedNodes && m.addedNodes.forEach(nd => { if (nd.nodeType === 1) fixMoliga(nd); });
-      });
-    }).observe(document.body, { subtree: true, childList: true, characterData: true });
+    // anche dove manca la copertina: niente icone né loghi, un VU meter
+    document.querySelectorAll('.player-bar__cover-placeholder, .np-overlay__cover-placeholder').forEach(ph => {
+      ph.innerHTML = '<span class="rc-cover-vu" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
+    });
+    const bars = badges.map(b => Array.from(b.querySelectorAll('.rc-live__vu i')))
+      .concat(Array.from(document.querySelectorAll('.rc-cover-vu')).map(v => Array.from(v.querySelectorAll('i'))));
+    let raf = null, t = 0;
+    const frame = () => {
+      t += 1;
+      const R = window.RCAudioReactive;
+      const real = R && R.enabled;
+      const lv = real ? R.level : 0.45 + Math.sin(t / 7) * 0.2;
+      const bs = real ? R.bass : 0.5 + Math.sin(t / 4.3) * 0.3;
+      const hs = [bs, lv * 1.2, (lv + bs) / 2 * 0.9 + (REDUCED ? 0 : Math.random() * 0.15), lv * 0.8 + bs * 0.3];
+      bars.forEach(group => group.forEach((el, i) => { el.style.transform = `scaleY(${Math.max(0.15, Math.min(1, hs[i % 4]))})`; }));
+      raf = requestAnimationFrame(frame);
+    };
+    const set = on => {
+      document.body.classList.toggle('rc-on-air', on);
+      badges.forEach(b => { b.querySelector('.rc-live__txt').textContent = on ? 'IN DIRETTA ORA' : b.dataset.off; });
+      cancelAnimationFrame(raf);
+      if (on && !REDUCED) raf = requestAnimationFrame(frame);
+    };
+    audio.addEventListener('playing', () => set(true));
+    ['pause', 'ended', 'error'].forEach(ev => audio.addEventListener(ev, () => set(false)));
   }
 
   function boot() {
-    initMoliga();
+    initLiveBadges();
     initStudi();
     initBumpers();
     initRise();

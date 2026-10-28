@@ -41,6 +41,48 @@ function fetchCoverFromWorker(artist, title) {
   p.then(v => { if (!v) setTimeout(() => COVER_CACHE.delete(key), 60000); }); // riprova più tardi se vuota
   return p;
 }
+// Copertina vera del brano: servizio RC, poi ricerca iTunes, poi quella dello stream.
+// Il logo della radio non si usa mai come copertina di una canzone.
+const ITUNES_COVER_CACHE = new Map();
+function normCover(s) {
+  return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/\(.*?\)|\[.*?\]/g, '').replace(/\b(feat|ft)\b.*$/, '').replace(/[^a-z0-9]+/g, ' ').trim();
+}
+function searchItunesCover(artist, title) {
+  if (!artist || !title) return Promise.resolve(null);
+  const key = `${artist}::${title}`.toLowerCase();
+  if (ITUNES_COVER_CACHE.has(key)) return ITUNES_COVER_CACHE.get(key);
+  const firstArtist = artist.split(/,|&| x | feat\.? /i)[0].trim();
+  const cleanTitle = title.replace(/\(.*?\)|\[.*?\]/g, '').replace(/\s+-\s+.*(remaster|edit|version|mix).*$/i, '').trim() || title;
+  const q = encodeURIComponent(`${firstArtist} ${cleanTitle}`);
+  const p = fetch(`https://itunes.apple.com/search?term=${q}&media=music&entity=song&limit=8&country=it`)
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      const res = (d && d.results) || [];
+      if (!res.length) return null;
+      const a = normCover(firstArtist), t = normCover(title);
+      const score = x => (normCover(x.trackName).includes(t) || t.includes(normCover(x.trackName)) ? 2 : 0) +
+        (normCover(x.artistName).includes(a) || a.includes(normCover(x.artistName)) ? 1 : 0);
+      const best = res.slice().sort((x, y) => score(y) - score(x))[0];
+      if (score(best) < 2 || !best.artworkUrl100) return null; // meglio niente che la copertina sbagliata
+      return best.artworkUrl100.replace(/\/\d+x\d+bb\./, '/600x600bb.');
+    })
+    .catch(() => null);
+  ITUNES_COVER_CACHE.set(key, p);
+  return p;
+}
+function resolveCover(artist, title, streamCover) {
+  return fetchCoverFromWorker(artist, title)
+    .then(c => c || searchItunesCover(artist, title))
+    .then(c => c || streamCover || null);
+}
+// Titolo del brano in onda (per non sovrascriverlo con "IN DIRETTA" al play)
+function currentBarTitle() {
+  const t = (typeof NowPlaying !== 'undefined' && NowPlaying.currentTrack) || '';
+  const parts = t.split(' - ');
+  return parts.length > 1 ? parts.slice(1).join(' - ').trim() : t.trim();
+}
+
 let APP_CONFIG = null;
 let metadataPollInterval = null;
 
@@ -592,7 +634,7 @@ function initPlayer() {
     dropLiveBuffer();
     if (isExplorePlaying) return;
     setUIActive(false);
-    if (playLabel) playLabel.textContent = "Radio Carducci · In Pausa";
+    if (playLabel) playLabel.textContent = currentBarTitle() || "Radio Carducci · In Pausa";
   });
 
   const R2_AUDIO_BASE = 'https://pub-7bdb71d3a8a643899d66d0b611b8b049.r2.dev/audio';
@@ -669,7 +711,8 @@ function initPlayer() {
         isPlaying = false;
       }
       if (lobbyAudio) {
-        lobbyAudio.currentTime = 0;
+        // rc-lobby.js sceglie il brano in base a ora, meteo e BPM; altrimenti resta lobby.mp3
+        if (!(window.RCLobby && window.RCLobby.prepare(lobbyAudio))) lobbyAudio.currentTime = 0;
         lobbyAudio.play().catch(err => console.warn('[Lobby] Play blocked:', err));
       }
       setExploreUI(true);
@@ -704,7 +747,7 @@ function initPlayer() {
       audio.pause();
       dropLiveBuffer();
       setUIActive(false);
-      if (playLabel) playLabel.textContent = "Radio Carducci · In Pausa";
+      if (playLabel) playLabel.textContent = currentBarTitle() || "Radio Carducci · In Pausa";
     } else {
       // Sempre una connessione nuova: si parte dal punto live
       audio.src = currentStreamUrl;
@@ -722,7 +765,7 @@ function initPlayer() {
 
       audio.play().then(() => {
         setUIActive(true);
-        if (playLabel) playLabel.textContent = "IN DIRETTA · Radio Carducci";
+        if (playLabel) playLabel.textContent = currentBarTitle() || "IN DIRETTA · Radio Carducci";
       }).catch(err => {
         console.warn('[Player] Stream offline or blocked:', err);
         setUIActive(false);
@@ -2466,7 +2509,7 @@ const NowPlaying = {
       const showTitle = liveShow ? liveShow.name : 'La Musica di Radio Carducci';
       trackStr = `Radio Carducci - ${showTitle}`;
       if (!streamCoverUrl) {
-        streamCoverUrl = liveShow?.img || 'assets/media-session-512.png';
+        streamCoverUrl = liveShow?.img || null;
       }
     }
 
@@ -2573,11 +2616,13 @@ const NowPlaying = {
 
     // Se è la radio stessa / rotazione palinsesto, mostra info brand pulite senza interrogare LRCLIB
     if (!this.autoEnabled || !artist || artist.toLowerCase() === 'radio carducci') {
-      const cover = processedStreamCover || 'assets/media-session-512.png';
-      this.els.cover.src = cover;
-      this.els.cover.classList.remove('np-overlay__cover--hidden');
-      this.els.barCover.src = cover;
-      this.els.barCover.classList.remove('player-bar__cover--hidden');
+      const cover = processedStreamCover || null;
+      if (cover) {
+        this.els.cover.src = cover;
+        this.els.cover.classList.remove('np-overlay__cover--hidden');
+        this.els.barCover.src = cover;
+        this.els.barCover.classList.remove('player-bar__cover--hidden');
+      }
       this.els.album.textContent = 'Web Radio del Liceo Carducci';
 
       const lyricsPanel = document.querySelector('[data-panel="lyrics"]');
@@ -2629,7 +2674,7 @@ const NowPlaying = {
     const isLiveDj = title === 'In Diretta su Radio Carducci';
 
     // La copertina arriva prima di tutto il resto: la mostro subito
-    const coverPromise = isLiveDj ? Promise.resolve(null) : fetchCoverFromWorker(artist, title);
+    const coverPromise = isLiveDj ? Promise.resolve(null) : resolveCover(artist, title, processedStreamCover);
     coverPromise.then(workerCover => {
       if (this.currentTrack !== trackStr) return;
       const cover = workerCover || processedStreamCover;
@@ -2672,7 +2717,7 @@ const NowPlaying = {
   applyData(data) {
 
     // Copertina: Worker (come l'app) → song.art di AzuraCast → logo
-    const finalCoverUrl = data.workerCoverUrl || data.streamCoverUrl || 'assets/media-session-512.png';
+    const finalCoverUrl = data.workerCoverUrl || data.streamCoverUrl || null;
 
     if (finalCoverUrl) {
       this.els.cover.src = finalCoverUrl;
