@@ -575,6 +575,7 @@
       this.text = el.querySelector('.rc-mascot__text');
       this.cta = el.querySelector('.rc-mascot__cta');
       this.soundBtn = el.querySelector('.rc-mascot__sound');
+      this.voiceBtn = el.querySelector('.rc-mascot__voice');
       this._syncSoundBtn();
 
       let pokes = [];
@@ -603,7 +604,6 @@
       });
       el.querySelector('.rc-mascot__close').addEventListener('click', () => this.hideBubble());
       this.soundBtn.addEventListener('click', () => RCSfx.setMuted(!RCSfx.muted));
-      this.voiceBtn = el.querySelector('.rc-mascot__voice');
       this.voiceBtn.addEventListener('click', () => {
         store('rc_voice_muted', String(!voiceMuted()));
         this._syncSoundBtn();

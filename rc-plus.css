@@ -927,3 +927,35 @@ body.theme-explore .rc-focus .rc-focus__phrase { color: var(--fg1) !important; }
   .angolo__title { transform: none; }
   .angolo__stage--cut .angolo__head { animation: none; }
 }
+
+/* ── ACCESSIBILITÀ: rosso leggibile sul testo piccolo ────────
+   Il rosso di brand #db3849 su ink ha contrasto 3.71: va bene da 18px
+   in su (lo dice anche il README), non sotto. Per le micro-label serve
+   una variante più chiara, 5.4:1, che resta lo stesso rosso. */
+:root { --rc-red-micro: #ef6673; }
+.nav-link-wrapped,
+.bacheca-item__tag,
+.preferiti-card__tag,
+.angolo__doc-open,
+.studi-location__address,
+.dediche__disabled-tag,
+.dediche__step-num,
+.bento-news__badge,
+.np-lyrics-empty__badge,
+.cookie-banner__title,
+.podcast-modal__hosts,
+.podcast-modal__now-label,
+.rc-focus__label,
+.team-member--highlighted .team-member__role,
+.ticker .sep { color: var(--rc-red-micro); }
+/* questi due vincono su regole più specifiche di site.css e sullo stile inline */
+.nav-link-wrapped,
+.nav-links .nav-link-wrapped,
+.nav-mobile a.open-wrapped-inpage { color: var(--rc-red-micro) !important; }
+.nav-link-wrapped:hover { color: var(--rc-bone) !important; }
+.podcast-section__note a { color: var(--rc-red-micro); }
+
+/* La tendina del brano, quando è chiusa, non deve restare raggiungibile
+   con il tasto Tab: era il primo elemento messo a fuoco della pagina. */
+.np-overlay:not(.active) { visibility: hidden; }
+.np-overlay.active { visibility: visible; }
