@@ -540,10 +540,13 @@
 }
 .np-lyrics__offset-reset:hover { color: var(--rc-red); border-color: var(--rc-red); }
 
-/* ── TEAM: schede piene e spigolose ─────────────────────────
-   I cerchi restano per i controlli dell'interfaccia, non per le persone. */
+/* ── TEAM ───────────────────────────────────────────────────
+   Regole del brand: quattro colori e basta, mai bordi multicolore,
+   foto in bianco e nero, il rosso solo come segnale. Le schede sono
+   tutte uguali, così la griglia si legge come un blocco unico.
+   Ruolo esteso, bio e programmi stanno nella scheda che si apre al clic. */
 #team .team__grid {
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 168px), 1fr));
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -558,71 +561,80 @@
 }
 #team .team-member:hover,
 #team .team-member:focus-visible { background: var(--bg-elev); }
+
 #team .team-member__photo {
   max-width: none;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1;
   border: 0;
   border-radius: 0;
-  border-bottom: 3px solid var(--c, var(--line-strong));
   background: var(--bg-inset);
+  overflow: hidden;
 }
 #team .team-member__photo img {
-  filter: contrast(1.05) saturate(0.85);
-  transition: transform 360ms var(--ease-out), filter 200ms var(--ease-out);
+  /* bianco e nero, come dice il brand: a colori solo al passaggio del mouse */
+  filter: grayscale(1) contrast(1.12) brightness(0.95);
+  transition: filter 200ms var(--ease-out), transform 360ms var(--ease-out);
 }
 #team .team-member:hover .team-member__photo img,
-#team .team-member:focus-visible .team-member__photo img { filter: none; transform: scale(1.04); }
+#team .team-member:focus-visible .team-member__photo img { filter: none; transform: scale(1.03); }
 #team .team-member__initials {
   font-family: var(--font-mega);
   font-weight: 400;
-  font-size: clamp(40px, 6vw, 72px);
+  font-size: clamp(32px, 5vw, 54px);
   color: var(--fg3);
 }
+
 #team .team-member__body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
-  padding: var(--s-3) var(--s-3) var(--s-4);
+  /* altezza minima uguale per tutte: la griglia resta allineata */
+  min-height: 5.4em;
+  padding: var(--s-3);
+  border-top: 2px solid var(--line-strong);
+  transition: border-color 120ms var(--ease-out);
 }
+#team .team-member:hover .team-member__body,
+#team .team-member:focus-visible .team-member__body { border-top-color: var(--rc-red); }
 #team .team-member__role {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: var(--ls-caps-wide);
   text-transform: uppercase;
-  color: var(--c, var(--fg3));
+  color: var(--fg3);
 }
 #team .team-member__name {
-  font-size: var(--fs-body-lg);
+  font-size: var(--fs-body);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.15;
+  color: var(--fg1);
+  text-wrap: balance;
 }
-#team .team-member__bio {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  font-family: var(--font-body);
-  font-size: var(--fs-caption);
-  line-height: 1.4;
-  color: var(--fg2);
-}
-#team .team-member__progs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-#team .team-member__prog {
-  padding: 2px 6px;
-  border: 1px solid var(--line-strong);
-  border-radius: 2px;
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--fg2);
-}
-#team .team-member--highlighted { box-shadow: inset 0 0 0 2px var(--c, var(--rc-red)); }
-#team .team-member--highlighted .team-member__photo { border-color: var(--c, var(--rc-red)); box-shadow: none; }
-#team .team-member:focus-visible { outline: 2px solid var(--c, var(--rc-red)); outline-offset: -2px; }
+/* bio e programmi solo nella scheda che si apre, non sulla griglia */
+#team .team-member__bio,
+#team .team-member__progs { display: none; }
+
+#team .team-member--highlighted { box-shadow: inset 0 0 0 2px var(--rc-red); }
+#team .team-member--highlighted .team-member__body { border-top-color: var(--rc-red); }
+#team .team-member--highlighted .team-member__role { color: var(--rc-red); }
+#team .team-member:focus-visible { outline: 2px solid var(--rc-red); outline-offset: -2px; }
 #team .team-member:focus-visible .team-member__photo { outline: none; }
+
+/* Filtri: stessa famiglia del resto, niente arcobaleno */
+#team .team-filter {
+  border-radius: 2px;
+  color: var(--fg3);
+  border-color: var(--line-strong);
+  background: transparent;
+}
+#team .team-filter:hover { color: var(--fg1); border-color: var(--fg3); }
+#team .team-filter.active,
+#team .team-filter.active:hover { background: var(--rc-bone); border-color: var(--rc-bone); color: var(--rc-ink); }
+#team .team-filter.active span,
+#team .team-filter:hover span { color: inherit; }
+
 @media (max-width: 520px) {
   #team .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
