@@ -184,7 +184,7 @@
 
     const out = c.createGain();
     out.gain.setValueAtTime(0.0001, t);
-    out.gain.exponentialRampToValueAtTime(0.09, t + 0.008);
+    out.gain.exponentialRampToValueAtTime(0.025, t + 0.008);
     out.gain.exponentialRampToValueAtTime(0.0001, t + dur);
 
     f.forEach((freq, i) => {
@@ -203,11 +203,13 @@
 
   // La voce della R: il campione pixel-text, con il tono che cambia a ogni lettera.
   // Se il campione non è ancora caricato, si usa la voce sintetizzata.
+  // Volume basso apposta: è un commento, non deve coprire la pagina
+  const VOICE_VOL = 0.12;
   function speak(ch) {
     const code = ch.toLowerCase().charCodeAt(0);
     const vowel = 'aeiouàèéìòù'.includes(ch.toLowerCase());
     const rate = 0.86 + ((code * 7) % 13) / 30 + (vowel ? 0.06 : 0);
-    if (window.RCSamples && RCSamples.ready('text') && RCSamples.play('text', { rate, vol: 0.45, gap: 0 })) return;
+    if (window.RCSamples && RCSamples.ready('text') && RCSamples.play('text', { rate, vol: VOICE_VOL, gap: 0 })) return;
     syllable(ch);
   }
 
@@ -560,6 +562,7 @@
           <span class="rc-mascot__shadow" aria-hidden="true"></span>
         </button>
         <div class="rc-mascot__tools">
+          <button class="rc-mascot__tool rc-mascot__voice" type="button"></button>
           <button class="rc-mascot__tool rc-mascot__sound" type="button"></button>
           <button class="rc-mascot__tool rc-mascot__hide" type="button">NASCONDI</button>
         </div>`;
@@ -600,6 +603,11 @@
       });
       el.querySelector('.rc-mascot__close').addEventListener('click', () => this.hideBubble());
       this.soundBtn.addEventListener('click', () => RCSfx.setMuted(!RCSfx.muted));
+      this.voiceBtn = el.querySelector('.rc-mascot__voice');
+      this.voiceBtn.addEventListener('click', () => {
+        store('rc_voice_muted', String(!voiceMuted()));
+        this._syncSoundBtn();
+      });
       document.addEventListener('rc:sounds', () => this._syncSoundBtn());
       el.querySelector('.rc-mascot__hide').addEventListener('click', () => {
         store('rc_mascot_hidden', 'true');
@@ -610,6 +618,12 @@
     },
 
     _syncSoundBtn() {
+      if (this.voiceBtn) {
+        const v = voiceMuted();
+        this.voiceBtn.textContent = v ? 'VOCE OFF' : 'VOCE ON';
+        this.voiceBtn.setAttribute('aria-pressed', String(!v));
+        this.voiceBtn.setAttribute('aria-label', v ? 'Fai parlare la R' : 'Zittisci la voce della R');
+      }
       const m = RCSfx.muted;
       this.soundBtn.textContent = m ? 'SUONI OFF' : 'SUONI ON';
       this.soundBtn.setAttribute('aria-pressed', String(!m));
@@ -658,13 +672,13 @@
       this.el.classList.add('rc-mascot--talking');
       const id = this._sayId = (this._sayId || 0) + 1;
       let i = 0;
-      const voiceOn = () => !RCSfx.muted && ctx && ctx.state === 'running' && !anyAudioPlaying();
+      const voiceOn = () => !RCSfx.muted && !voiceMuted() && ctx && ctx.state === 'running' && !anyAudioPlaying();
       const step = () => {
         if (!this.el || id !== this._sayId) return;
         if (i >= line.length) { finish(); return; }
         const ch = line[i++];
         this.text.textContent += ch;
-        if (/[a-zà-ù]/i.test(ch) && i % 2 === 0 && voiceOn()) speak(ch);
+        if (/[a-zà-ù]/i.test(ch) && i % 3 === 0 && voiceOn()) speak(ch);
         setTimeout(step, /[.,:]/.test(ch) ? 190 : 32);
       };
       step();
@@ -874,6 +888,8 @@
 
     countPhrases() { return Frasi.countAll(); }
   };
+
+  function voiceMuted() { return store('rc_voice_muted') === 'true'; }
 
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function clock() {
