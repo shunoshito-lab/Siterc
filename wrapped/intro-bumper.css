@@ -1,0 +1,66 @@
+/* ============================================================
+   WRAPPED — apertura a bumper (ricetta del brand) + titoli che salgono
+   ============================================================ */
+.wr-bumper {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  padding: var(--s-9) max(var(--s-7), env(safe-area-inset-right, 0px)) var(--s-9) max(var(--s-7), env(safe-area-inset-left, 0px));
+  background: #000;
+  color: var(--rc-bone);
+  cursor: pointer;
+}
+.wr-bumper[hidden] { display: none; }
+.wr-bumper__top,
+.wr-bumper__bot {
+  position: absolute;
+  left: max(var(--s-7), env(safe-area-inset-left, 0px));
+  right: max(var(--s-7), env(safe-area-inset-right, 0px));
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+}
+.wr-bumper__top { top: calc(var(--s-5) + env(safe-area-inset-top, 0px)); }
+.wr-bumper__bot { bottom: calc(var(--s-5) + env(safe-area-inset-bottom, 0px)); }
+.wr-bumper__txt {
+  margin: 0;
+  font-family: var(--font-mega);
+  font-size: clamp(56px, 11vw, 170px);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+}
+.wr-bumper__txt span { display: block; visibility: hidden; }
+.wr-bumper__txt span.on { visibility: visible; }
+.wr-bumper__txt em { font-style: normal; color: var(--rc-red); }
+
+/* Le righe del titolo salgono da sotto una maschera, una dopo l'altra */
+.wr-rise .intro-line:not(.intro-name-line) { overflow: hidden; }
+/* Syne è più largo del vecchio Outfit: titolo un po' più piccolo, così il nome ci sta */
+.intro-title { font-size: clamp(2.25rem, 6vw, 4.25rem); }
+.intro-name-line { white-space: nowrap; }
+.wr-rise .intro-line > .wr-in {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 360ms cubic-bezier(0.9, 0, 0.1, 1);
+}
+.wr-rise.wr-rise--on .intro-line > .wr-in { transform: none; }
+.wr-rise.wr-rise--on .intro-line:nth-child(2) > .wr-in { transition-delay: 90ms; }
+.wr-rise.wr-rise--on .intro-line:nth-child(3) > .wr-in { transition-delay: 180ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wr-rise .intro-line > .wr-in { transform: none; transition: none; }
+}
+
+/* La roulette era larga quanto il nome più lungo e il nome finale finiva a destra:
+   la maschera resta dentro la colonna e ogni nome è centrato */
+.name-roulette-mask { max-width: 100%; vertical-align: bottom; }
+.name-roulette { align-items: center; }
+.name-roulette .roulette-name { text-align: center; }

@@ -14,6 +14,8 @@
   <link rel="icon" type="image/svg+xml" href="assets/logo-rc-mark-bone.svg">
   <link rel="stylesheet" href="colors_and_type.css?v=6">
   <link rel="stylesheet" href="site.css?v=42">
+  <link rel="stylesheet" href="rc-plus.css?v=1">
+  <link rel="stylesheet" href="mascotte.css?v=2">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 </head>
 <body class="theme-dark">
@@ -42,6 +44,7 @@
         <li><a href="#palinsesto">Palinsesto</a></li>
         <li><a href="#podcast">Podcast</a></li>
         <li><a href="#team">Team</a></li>
+        <li><a href="#studi">Studi</a></li>
         <li data-rc-section="preferiti"><a href="#preferiti">Preferiti</a></li>
         <li data-rc-section="dediche"><a href="#dediche">Dediche</a></li>
         <li><a href="#manifesto">Chi siamo</a></li>
@@ -64,6 +67,7 @@
     <a href="#palinsesto">Palinsesto</a>
     <a href="#podcast">Podcast</a>
     <a href="#team">Team</a>
+    <a href="#studi">Studi</a>
     <a href="#preferiti" data-rc-section="preferiti">Preferiti</a>
     <a href="#dediche" data-rc-section="dediche">Dediche</a>
     <a href="#manifesto">Chi siamo</a>
@@ -171,6 +175,16 @@
     </div>
   </section>
 
+  <aside class="rc-bumper " aria-label="Bumper Radio Carducci" data-bumper-start="0">
+    <div class="rc-bumper__top"><span>RC</span><span class="rc-bumper__num">000</span></div>
+    <p class="rc-bumper__txt"></p>
+    <div class="rc-bumper__bot">
+      <img src="assets/logo-rc-mark-bone.svg" alt="" width="40" height="37">
+      <span class="rc-bumper__meta">WEB ONLY</span>
+      <button class="rc-bumper__next" type="button">ALTRO →</button>
+    </div>
+  </aside>
+
   <section id="team" class="fade-in" role="region" aria-label="Il team">
     <div class="section-label fade-in">
       <span>ORGANIGRAMMA · IL TEAM</span>
@@ -180,6 +194,89 @@
       <div class="empty-state">Caricamento team in corso...</div>
     </div>
   </section>
+
+  <section id="studi" class="fade-in" role="region" aria-label="I nostri studi">
+    <div class="section-label fade-in">
+      <span>I NOSTRI STUDI · SPAZI DI PRODUZIONE</span>
+      <span>VIA ASMARA 28 · ROMA</span>
+    </div>
+
+    <div class="studi">
+      <div class="studi__stage" data-studio="regia">
+        <figure class="studi__photo studi__photo--active" data-studio="regia">
+          <img src="assets/studi-regia.jpg" alt="Studio 01: il tavolo con tre microfoni, i pannelli fonoassorbenti e le tende rosse" width="878" height="1170" loading="lazy">
+        </figure>
+        <figure class="studi__photo" data-studio="redazione">
+          <img src="assets/studi-redazione.jpg" alt="Studio 02: le postazioni di montaggio, la parete fonoassorbente e il vetro interno" width="878" height="1170" loading="lazy">
+        </figure>
+        <div class="studi__badge rc-live">STUDIO 01 · ON AIR</div>
+        <div class="studi__caption" aria-live="polite"></div>
+      </div>
+
+      <div class="studi__panel">
+        <div class="studi__switch" role="tablist" aria-label="Scegli lo studio">
+          <button class="studi__tab studi__tab--active" role="tab" aria-selected="true" data-studio="regia" id="studi-tab-regia">STUDIO 01 · ON AIR</button>
+          <button class="studi__tab" role="tab" aria-selected="false" data-studio="redazione" id="studi-tab-redazione">STUDIO 02 · REDAZIONE</button>
+        </div>
+
+        <h2 class="studi__headline" data-rise>due stanze. <em>zero silenzio.</em></h2>
+        <p class="studi__desc">
+          Dentro il Liceo Carducci, in via Asmara 28. Una stanza per andare in onda, una per preparare quello che va in onda. Clicca sui punti della foto e fatti il giro.
+        </p>
+
+        <div class="studi__room studi__room--active" data-studio="regia" role="tabpanel" aria-labelledby="studi-tab-regia">
+          <div class="studi__meta">SALA TRASMISSIONI &amp; REGIA</div>
+          <ol class="studi__spots">
+            <li><button class="studi__spot" data-x="52" data-y="50">Microfoni</button><span class="studi__spot-text">tre microfoni, un tavolo. qui si va in diretta, e qui si sbaglia in diretta.</span></li>
+            <li><button class="studi__spot" data-x="39" data-y="46">Pannelli</button><span class="studi__spot-text">pannelli fonoassorbenti. servono a non far entrare il corridoio in diretta.</span></li>
+            <li><button class="studi__spot" data-x="9" data-y="55">Regia</button><span class="studi__spot-text">la postazione di regia: computer, mixer, playlist. chi sta qui decide cosa senti.</span></li>
+            <li><button class="studi__spot" data-x="77" data-y="36">Tende</button><span class="studi__spot-text">tende rosse, stesso rosso del logo. coincidenza? probabilmente.</span></li>
+          </ol>
+          <div class="studi__specs">
+            <span class="studi-spec">CONSOLE MIXER</span>
+            <span class="studi-spec">MICROFONI BROADCAST</span>
+            <span class="studi-spec">MONITOR CUFFIE</span>
+            <span class="studi-spec">LIVE ENCODER</span>
+          </div>
+        </div>
+
+        <div class="studi__room" data-studio="redazione" role="tabpanel" aria-labelledby="studi-tab-redazione" hidden>
+          <div class="studi__meta">REDAZIONE &amp; PODCAST</div>
+          <ol class="studi__spots">
+            <li><button class="studi__spot" data-x="72" data-y="53">Postazioni</button><span class="studi__spot-text">le postazioni di montaggio. qui una diretta diventa un podcast.</span></li>
+            <li><button class="studi__spot" data-x="10" data-y="45">Vetro</button><span class="studi__spot-text">il vetro interno. serve a fare segni a chi sta dall'altra parte. di solito il segno è «abbassa».</span></li>
+            <li><button class="studi__spot" data-x="29" data-y="40">Vinile</button><span class="studi__spot-text">un vinile appeso al muro. la decorazione ufficiale della redazione, per ora l'unica.</span></li>
+            <li><button class="studi__spot" data-x="81" data-y="22">Soffitto</button><span class="studi__spot-text">altri pannelli, stavolta in alto. il silenzio qui è una cosa seria.</span></li>
+          </ol>
+          <div class="studi__specs">
+            <span class="studi-spec">TAVOLO REDAZIONE</span>
+            <span class="studi-spec">POST-PRODUZIONE</span>
+            <span class="studi-spec">SCALETTE SHOW</span>
+            <span class="studi-spec">PLANNING EDITORIALE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="studi-location fade-in">
+      <div class="studi-location__info">
+        <div class="studi-location__address">VIA ASMARA 28 · 00199 ROMA (RM)</div>
+        <div class="studi-location__title">Liceo Classico Statale G. Carducci — Sede Centrale</div>
+        <div class="studi-location__sub">Studi realizzati in collaborazione con l'Associazione Alumni Carducci</div>
+      </div>
+      <a href="https://maps.app.goo.gl/76H7wDSfky7S8FRbA" target="_blank" rel="noopener" class="btn">Apri su Google Maps ↗</a>
+    </div>
+  </section>
+
+  <aside class="rc-bumper rc-bumper--red" aria-label="Bumper Radio Carducci" data-bumper-start="2">
+    <div class="rc-bumper__top"><span>RC</span><span class="rc-bumper__num">000</span></div>
+    <p class="rc-bumper__txt"></p>
+    <div class="rc-bumper__bot">
+      <img src="assets/logo-rc-mark-white.svg" alt="" width="40" height="37">
+      <span class="rc-bumper__meta">WEB ONLY</span>
+      <button class="rc-bumper__next" type="button">ALTRO →</button>
+    </div>
+  </aside>
 
   <section id="dediche" data-rc-section="dediche" class="fade-in" role="region" aria-label="Manda una dedica">
     <div class="section-label fade-in">
@@ -632,5 +729,11 @@
   </div>
 
   <script src="site.js?v=50"></script>
+  <script src="rc-sfx.js?v=3"></script>
+  <script src="rc-plus.js?v=2"></script>
+  <script src="mascotte-frasi.js?v=2"></script>
+  <script src="mascotte.js?v=5"></script>
+  <script src="rc-account.js?v=2"></script>
+  <script src="rc-debug.js?v=1"></script>
 </body>
 </html>

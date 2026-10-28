@@ -1,0 +1,206 @@
+/* ============================================================
+   RADIO CARDUCCI — LA R (mascotte)
+   Sta sopra la player bar, a destra. Solo desktop (vedi mascotte.js).
+   ============================================================ */
+
+.rc-mascot {
+  --m-size: 92px;
+  position: fixed;
+  right: max(44px, env(safe-area-inset-right, 0px)); /* lascia libero l'orologio verticale */
+  bottom: calc(72px + 18px + env(safe-area-inset-bottom, 0px));
+  z-index: 60; /* sopra la player bar (--z-overlay), sotto modali e tutorial */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s-2);
+  pointer-events: none;
+}
+
+/* La R vera: stessi colori del logo in nav */
+.rc-mascot .m-red   { fill: var(--rc-red-deep, #991c3b); }
+.rc-mascot .m-white { fill: var(--rc-bone); }
+.rc-mascot .m-iris  { fill: var(--rc-ink); transition: ry 0.08s ease-in; }
+
+.rc-mascot__body {
+  position: relative;
+  width: var(--m-size);
+  height: calc(var(--m-size) * 0.92);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.rc-mascot__body svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+  will-change: transform;
+}
+.rc-mascot__body:hover svg .m-red { fill: var(--rc-red); }
+.rc-mascot__body:focus-visible {
+  outline: 2px solid var(--rc-red);
+  outline-offset: 6px;
+}
+.rc-mascot__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 70%;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  filter: blur(4px);
+  transform: translateX(-50%);
+  opacity: 0.45;
+}
+
+/* Pizzicotto quando la clicchi */
+/* Pizzicotto: un colpo secco, come un taglio di regia */
+.rc-mascot--poked .rc-mascot__body {
+  animation: rc-mascot-poke 200ms var(--ease-out);
+}
+@keyframes rc-mascot-poke {
+  0%   { transform: scale(1.12, 0.86); }
+  100% { transform: scale(1, 1); }
+}
+
+/* ── Fumetto ── */
+.rc-mascot__bubble {
+  position: relative;
+  max-width: min(360px, calc(100vw - 48px));
+  margin-right: calc(var(--m-size) * 0.35);
+  padding: var(--s-5) var(--s-5) var(--s-4);
+  background: var(--rc-bone);
+  color: var(--rc-ink);
+  border: 0;
+  border-radius: 0;
+  border-left: 6px solid var(--rc-red);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+/* Codina del fumetto verso la R: un triangolo pieno, niente curve */
+.rc-mascot__bubble::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: -12px;
+  border-left: 14px solid transparent;
+  border-top: 12px solid var(--rc-bone);
+}
+.rc-mascot__bubble--open {
+  opacity: 1;
+  transform: none;
+}
+.rc-mascot__name {
+  position: absolute;
+  top: 0;
+  left: var(--s-5);
+  transform: translateY(-50%);
+  padding: 4px 10px;
+  border-radius: 0;
+  background: var(--rc-ink);
+  color: var(--rc-bone);
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: var(--ls-caps-wide);
+}
+/* Mentre parla, il nome diventa la capsula ON AIR del brand */
+.rc-mascot--talking .rc-mascot__name {
+  background: var(--rc-red);
+  border-radius: 999px;
+}
+.rc-mascot .rc-mascot__text {
+  margin: 0;
+  max-width: none;
+  color: var(--rc-ink);
+  min-height: 1.45em;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.rc-mascot__cta {
+  margin-top: var(--s-3);
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 0;
+  background: var(--rc-red);
+  color: var(--rc-bone);
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: var(--ls-caps-wide);
+  cursor: pointer;
+  transition: background 120ms var(--ease-out);
+}
+.rc-mascot__cta:hover { background: var(--rc-red-deep); }
+.rc-mascot__cta:focus-visible { outline: 2px solid var(--rc-red); outline-offset: 2px; }
+.rc-mascot__close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fg-dim);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.rc-mascot__close:hover { color: var(--rc-ink); }
+.rc-mascot__close:focus-visible { outline: 2px solid var(--rc-red); }
+
+/* ── Mini comandi: suoni on/off, nascondi ── */
+.rc-mascot__tools {
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--dur-fast), transform var(--dur-fast);
+  pointer-events: auto;
+}
+.rc-mascot:hover .rc-mascot__tools,
+.rc-mascot:focus-within .rc-mascot__tools {
+  opacity: 1;
+  transform: none;
+}
+/* Comandi in CAPS, niente icone (regola del brand) */
+.rc-mascot__tool {
+  padding: 5px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: var(--rc-ink);
+  color: var(--fg2);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--ls-caps-wide);
+  cursor: pointer;
+  transition: color 120ms var(--ease-out), border-color 120ms var(--ease-out);
+}
+.rc-mascot__tool:hover { color: var(--rc-red); border-color: var(--rc-red); }
+.rc-mascot__tool:focus-visible { outline: 2px solid var(--rc-red); outline-offset: 2px; }
+
+/* Durante il tutorial la R si fa da parte */
+body:has(.tutorial-overlay) .rc-mascot { opacity: 0; visibility: hidden; }
+
+@media (max-width: 768px) {
+  .rc-mascot { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rc-mascot__bubble,
+  .rc-mascot__tools { transition: none; }
+  .rc-mascot--poked .rc-mascot__body,
+  .rc-mascot--talking .rc-mascot__name { animation: none; }
+}
