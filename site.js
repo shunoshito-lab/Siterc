@@ -850,7 +850,7 @@ function initPalinsesto() {
           <span>CONDUTTORE SELEZIONATO: <strong>${speakerName}</strong></span>
         </div>
         <div class="palinsesto__speaker-bar-actions">
-          <button type="button" class="btn btn-sm btn-red" id="speaker-bar-calendar-btn">📅 Aggiungi al Calendario</button>
+          <button type="button" class="btn btn-sm btn-red" id="speaker-bar-calendar-btn">Aggiungi al calendario</button>
           <button type="button" class="btn btn-sm" id="speaker-bar-clear-btn" style="background:#262626; color:#eaeaea;">✕ Rimuovi filtro</button>
         </div>
       `;
@@ -1739,10 +1739,18 @@ function initTeam() {
       ? `<img src="${escapeHtml(member.img)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'team-member__initials',textContent:'${memberInitials(member.name)}'}))">`
       : `<span class="team-member__initials">${memberInitials(member.name)}</span>`;
 
+    const programs = (member.programs || []).slice(0, 2).map(slug =>
+      `<span class="team-member__prog">${escapeHtml(programLabel(slug))}</span>`).join('');
+    const bio = member.bio ? `<span class="team-member__bio">${escapeHtml(member.bio)}</span>` : '';
+
     card.innerHTML = `
       <span class="team-member__photo">${photo}</span>
-      <span class="team-member__name">${escapeHtml(member.name)}</span>
-      <span class="team-member__role">${escapeHtml(member.role || 'Staff')}</span>
+      <span class="team-member__body">
+        <span class="team-member__role">${escapeHtml(member.role || 'Staff')}</span>
+        <span class="team-member__name">${escapeHtml(member.name)}</span>
+        ${bio}
+        ${programs ? `<span class="team-member__progs">${programs}</span>` : ''}
+      </span>
     `;
     card.addEventListener('click', () => openMemberModal(member));
     grid.appendChild(card);
@@ -2142,8 +2150,15 @@ const NowPlaying = {
   cache: {},
   sources: [],
   trackStartTime: Date.now(),
-  streamLatencyMs: 5000,
-  delayOffset: 6.5, // Compensazione standard +6.5s per time-based lyrics (anticipate di 1.5s)
+  // Ritardo tra metadati e quello che si sente: misurato dalla redazione tra 3.78 e 3.92 s
+  streamLatencyMs: 3850,
+  // Anticipo di lettura: la riga si accende un attimo prima di essere cantata
+  delayOffset: 0.3,
+  // Correzione personale (tocco su una riga quando la senti): resta salvata sul dispositivo
+  userOffset: (() => { const v = parseFloat(localStorage.getItem('rc_lyrics_user_offset')); return isNaN(v) ? 0 : v; })(),
+  // Di quanto l'orologio del dispositivo è avanti rispetto al server (ms)
+  clockSkewMs: 0,
+  _skewSamples: [],
   isTimeSyncEnabled: localStorage.getItem('rc_lyrics_sync_enabled') !== 'false',
   syncedLines: [],
   activeLyricIndex: -1,
@@ -2180,7 +2195,7 @@ const NowPlaying = {
 
   syncTrackElapsed(serverElapsed) {
     if (typeof serverElapsed !== 'number' || isNaN(serverElapsed) || serverElapsed < 0) return;
-    const computedStartTime = Date.now() - (serverElapsed * 1000) + (this.streamLatencyMs || 5000);
+    const computedStartTime = Date.now() - (serverElapsed * 1000) + (this.streamLatencyMs || 3850);
     if (!this.trackStartTime || Math.abs(this.trackStartTime - computedStartTime) > 1200) {
       this.trackStartTime = computedStartTime;
       this.tickLyricsSync();
@@ -2373,9 +2388,20 @@ const NowPlaying = {
     // Calcolo robusto del tempo trascorso:
     // AzuraCast fornisce sia played_at (timestamp unix assoluto) che elapsed (secondi trascorsi)
     const playedAtSec = data.now_playing?.played_at || data.played_at;
+    const elapsedSec = typeof data.now_playing?.elapsed === 'number' ? data.now_playing.elapsed
+      : (typeof data.elapsed === 'number' ? data.elapsed : null);
+    // Orologio del dispositivo: played_at + elapsed è "adesso" secondo il server.
+    // Le risposte in cache sono un po' vecchie e gonfiano la differenza, quindi si tiene la più piccola.
+    if (typeof playedAtSec === 'number' && playedAtSec > 0 && elapsedSec != null) {
+      const sample = Date.now() - (playedAtSec + elapsedSec) * 1000;
+      if (Math.abs(sample) < 6 * 3600 * 1000) {
+        this._skewSamples.push(sample);
+        if (this._skewSamples.length > 20) this._skewSamples.shift();
+        this.clockSkewMs = Math.min(...this._skewSamples);
+      }
+    }
     if (typeof playedAtSec === 'number' && playedAtSec > 0) {
-      const nowSec = Math.floor(Date.now() / 1000);
-      const diff = nowSec - playedAtSec;
+      const diff = (Date.now() - this.clockSkewMs) / 1000 - playedAtSec;
       if (diff >= 0 && diff < 7200) {
         serverElapsed = diff;
       }
@@ -2503,7 +2529,7 @@ const NowPlaying = {
 
   async onTrackChange(trackStr, streamCoverUrl = null, serverElapsed = null) {
     if (typeof serverElapsed === 'number' && !isNaN(serverElapsed) && serverElapsed >= 0) {
-      this.trackStartTime = Date.now() - (serverElapsed * 1000) + (this.streamLatencyMs || 5000);
+      this.trackStartTime = Date.now() - (serverElapsed * 1000) + (this.streamLatencyMs || 3850);
     } else {
       this.trackStartTime = Date.now();
     }
@@ -3059,10 +3085,12 @@ const NowPlaying = {
       <div class="np-lyrics np-lyrics--synced ${isSynced ? '' : 'np-lyrics--manual'}">
         <div class="np-lyrics__beta-card">
           <div class="np-lyrics__beta-msg">
-            Siamo in beta: le lyrics potrebbero andare in ritardo o in anticipo, la vita è un po' così...
+            Fuori tempo? Tocca una riga nel momento in cui la senti: il sito si mette a tempo e se lo ricorda.
+            <span class="np-lyrics__offset"><span id="np-lyrics-offset">${this.offsetLabel()}</span>
+            <button type="button" class="np-lyrics__offset-reset" id="np-lyrics-offset-reset">AZZERA</button></span>
           </div>
           <button type="button" class="np-lyrics__sync-toggle-btn ${isSynced ? 'active' : ''}" id="np-lyrics-sync-toggle" aria-label="Attiva o disattiva sincronizzazione tempo">
-            <span id="np-sync-toggle-label">${isSynced ? '⚡ Sincronizzazione tempo: ATTIVA' : '⏱️ Sincronizzazione tempo: DISATTIVATA'}</span>
+            <span id="np-sync-toggle-label">${isSynced ? 'SINCRONIZZAZIONE TEMPO: ATTIVA' : 'SINCRONIZZAZIONE TEMPO: DISATTIVATA'}</span>
           </button>
         </div>
         <div class="np-lyrics__scroll-wrapper" id="np-lyrics-scroll">
@@ -3074,6 +3102,12 @@ const NowPlaying = {
         </button>
       </div>
     `;
+
+    document.getElementById('np-lyrics-offset-reset')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.setUserOffset(0);
+      this.tickLyricsSync();
+    });
 
     document.getElementById('np-lyrics-sync-toggle')?.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -3087,13 +3121,13 @@ const NowPlaying = {
       if (this.isTimeSyncEnabled) {
         wrapper?.classList.remove('np-lyrics--manual');
         btn?.classList.add('active');
-        if (lbl) lbl.textContent = '⚡ Sincronizzazione tempo: ATTIVA';
+        if (lbl) lbl.textContent = 'SINCRONIZZAZIONE TEMPO: ATTIVA';
         this.resumeAutoScroll();
         this.tickLyricsSync();
       } else {
         wrapper?.classList.add('np-lyrics--manual');
         btn?.classList.remove('active');
-        if (lbl) lbl.textContent = '⏱️ Sincronizzazione tempo: DISATTIVATA';
+        if (lbl) lbl.textContent = 'SINCRONIZZAZIONE TEMPO: DISATTIVATA';
         container.querySelectorAll('.np-lyrics__line--active').forEach(el => el.classList.remove('np-lyrics__line--active'));
       }
     });
@@ -3126,13 +3160,14 @@ const NowPlaying = {
 
     container.querySelectorAll('.np-lyrics__line').forEach(lineEl => {
       lineEl.style.cursor = 'pointer';
-      lineEl.setAttribute('title', 'Clicca per allineare il brano a questa riga');
+      lineEl.setAttribute('title', 'Tocca quando senti questa riga: i testi si rimettono a tempo');
       lineEl.addEventListener('click', (e) => {
         if (!this.isTimeSyncEnabled) return;
         e.stopPropagation();
         const lineTime = parseFloat(lineEl.dataset.time);
         if (!isNaN(lineTime)) {
-          this.trackStartTime = Date.now() - (lineTime * 1000) + 5000;
+          // Il tocco diventa una correzione personale: il polling non la cancella e resta salvata
+          this.setUserOffset(this.userOffset + (lineTime - this.lyricsElapsed()));
           this.resumeAutoScroll();
           this.tickLyricsSync();
         }
@@ -3150,14 +3185,32 @@ const NowPlaying = {
     }, 150);
   },
 
+  // Secondo del brano che stai sentendo adesso (+ anticipo di lettura + tua correzione)
+  lyricsElapsed() {
+    return (Date.now() - this.trackStartTime) / 1000 + (this.delayOffset || 0) + (this.userOffset || 0);
+  },
+
+  setUserOffset(v) {
+    this.userOffset = Math.max(-30, Math.min(30, Math.round(v * 100) / 100));
+    try { localStorage.setItem('rc_lyrics_user_offset', String(this.userOffset)); } catch (e) {}
+    const out = document.getElementById('np-lyrics-offset');
+    if (out) out.textContent = this.offsetLabel();
+    window.dispatchEvent(new Event('rc-lyrics-offset-updated'));
+  },
+
+  offsetLabel() {
+    const v = this.userOffset || 0;
+    if (Math.abs(v) < 0.05) return 'nessuna correzione';
+    return v > 0 ? `testi avanti di ${v.toFixed(1)} s` : `testi indietro di ${(-v).toFixed(1)} s`;
+  },
+
   tickLyricsSync() {
     if (!this.isTimeSyncEnabled) return;
     if (!this.syncedLines || !this.syncedLines.length) return;
     const container = document.getElementById('np-lyrics-scroll');
     if (!container) return;
 
-    // Tempo trascorso in secondi con compensazione standard automatica di +6.5s (anticipo di 1.5s)
-    const elapsedSec = ((Date.now() - this.trackStartTime) / 1000) + (typeof this.delayOffset === 'number' ? this.delayOffset : 6.5);
+    const elapsedSec = this.lyricsElapsed();
 
     let activeIdx = -1;
     for (let i = 0; i < this.syncedLines.length; i++) {

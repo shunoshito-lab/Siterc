@@ -7,19 +7,13 @@
 (function () {
   'use strict';
 
-  const OFFSET_KEY = 'rc_lyrics_offset';
+  // la vecchia chiave aveva un significato diverso (offset assoluto 6.5 s): si butta
+  try { localStorage.removeItem('rc_lyrics_offset'); } catch (e) {}
   const log = [];
   let panel = null, timer = null, lastData = 0, dataCount = 0;
 
   function ls(k, v) {
     try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; }
-  }
-
-  // Offset dei testi salvato dal pannello: vale anche senza pannello aperto
-  function applySavedOffset() {
-    const np = window.NowPlaying;
-    const saved = parseFloat(ls(OFFSET_KEY));
-    if (np && !isNaN(saved)) np.delayOffset = saved;
   }
 
   function hook() {
@@ -55,13 +49,13 @@
   function lyricsInfo() {
     const np = window.NowPlaying;
     if (!np) return null;
-    const offset = typeof np.delayOffset === 'number' ? np.delayOffset : 6.5;
-    const elapsed = (Date.now() - np.trackStartTime) / 1000 + offset;
+    const elapsed = np.lyricsElapsed ? np.lyricsElapsed() : (Date.now() - np.trackStartTime) / 1000;
     const lines = np.syncedLines || [];
     const idx = np.activeLyricIndex;
     const cur = idx >= 0 ? lines[idx] : null;
     const next = lines[idx + 1] || null;
-    return { offset, elapsed, lines: lines.length, idx, cur, next, latency: np.streamLatencyMs, sync: np.isTimeSyncEnabled };
+    return { elapsed, lines: lines.length, idx, cur, next, sync: np.isTimeSyncEnabled,
+      latency: np.streamLatencyMs, lead: np.delayOffset || 0, user: np.userOffset || 0, skew: np.clockSkewMs || 0 };
   }
 
   function fmt(n, d) { return (typeof n === 'number' && isFinite(n)) ? n.toFixed(d == null ? 1 : d) : '—'; }
@@ -93,7 +87,10 @@
     html += '<div class="rcd__h">TESTI SINCRONIZZATI</div>';
     if (l) {
       html += row('sync attivo', l.sync ? 'SÌ' : 'NO');
-      html += row('offset', (l.offset >= 0 ? '+' : '') + fmt(l.offset, 2) + ' s');
+      html += row('ritardo diretta', fmt(l.latency / 1000, 2) + ' s');
+      html += row('orologio dispositivo', (l.skew >= 0 ? 'avanti ' : 'indietro ') + fmt(Math.abs(l.skew) / 1000, 2) + ' s', Math.abs(l.skew) > 1500 ? 'bad' : 'ok');
+      html += row('anticipo di lettura', fmt(l.lead, 2) + ' s');
+      html += row('tua correzione', (l.user >= 0 ? '+' : '') + fmt(l.user, 2) + ' s');
       html += row('tempo stimato nel brano', fmt(l.elapsed) + ' s');
       html += row('righe', l.lines ? `${l.idx + 1} / ${l.lines}` : 'nessun testo');
       if (l.cur) html += row('riga attiva da', fmt(l.elapsed - l.cur.t) + ' s');
@@ -120,9 +117,8 @@
 
   function nudge(d) {
     const np = window.NowPlaying;
-    if (!np) return;
-    np.delayOffset = Math.round(((typeof np.delayOffset === 'number' ? np.delayOffset : 6.5) + d) * 100) / 100;
-    ls(OFFSET_KEY, String(np.delayOffset));
+    if (!np || !np.setUserOffset) return;
+    np.setUserOffset((np.userOffset || 0) + d);
     if (np.tickLyricsSync) np.tickLyricsSync();
     tick();
   }
@@ -170,7 +166,7 @@
       <div class="rcd__ctrl">
         <button type="button" data-d="-0.5">TESTI −0.5 s</button>
         <button type="button" data-d="0.5">TESTI +0.5 s</button>
-        <button type="button" class="rcd__reset">OFFSET 6.5</button>
+        <button type="button" class="rcd__reset">AZZERA CORREZIONE</button>
         <button type="button" class="rcd__tap">PREMI QUANDO SENTI LA PROSSIMA RIGA</button>
         <div class="rcd__tap-out" aria-live="polite"></div>
       </div>`;
@@ -179,8 +175,7 @@
     panel.querySelectorAll('[data-d]').forEach(b => b.addEventListener('click', () => nudge(parseFloat(b.dataset.d))));
     panel.querySelector('.rcd__reset').addEventListener('click', () => {
       const np = window.NowPlaying;
-      if (np) np.delayOffset = 6.5;
-      try { localStorage.removeItem(OFFSET_KEY); } catch (e) {}
+      if (np && np.setUserOffset) np.setUserOffset(0);
       tick();
     });
     panel.querySelector('.rcd__tap').addEventListener('click', tap);
@@ -188,7 +183,6 @@
 
   function boot() {
     hook();
-    applySavedOffset();
     document.addEventListener('keydown', e => {
       if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) { e.preventDefault(); RCDebug.toggle(); }
     });

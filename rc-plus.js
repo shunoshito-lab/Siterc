@@ -126,7 +126,7 @@
     src.split('/').forEach(line => {
       const span = document.createElement('span');
       span.className = 'rc-bumper__line';
-      span.innerHTML = line
+      span.innerHTML = mega(line)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;')
         .replace(/\*([^*]+)\*/g, '<em>$1</em>');
       el.appendChild(span);
@@ -205,7 +205,44 @@
     });
   }
 
+  // ═══════════════════════════════════════════════════════════════
+  // MOLIGA SENZA ACCENTI — il font non ha le lettere accentate:
+  // si scrive la vocale con l'apostrofo (è → e'), come fa già NowPlaying
+  // ═══════════════════════════════════════════════════════════════
+  const ACCENTI = { 'à': "a'", 'è': "e'", 'é': "e'", 'ì': "i'", 'ò': "o'", 'ù': "u'",
+    'À': "A'", 'È': "E'", 'É': "E'", 'Ì': "I'", 'Ò': "O'", 'Ù': "U'" };
+  const RE_ACCENTI = /[àèéìòùÀÈÉÌÒÙ]/g;
+  const mega = window.RCMega = str => String(str == null ? '' : str).replace(RE_ACCENTI, c => ACCENTI[c]);
+  const MOLIGA = '.hero__headline, .team-card__initial, .dediche__aside-title, .dediche__success-text, ' +
+    '.preloader__title, .rc-bumper__txt, .studi__headline';
+
+  function fixMoliga(root) {
+    const els = root.matches && root.matches(MOLIGA) ? [root] : [];
+    (root.querySelectorAll ? root.querySelectorAll(MOLIGA) : []).forEach(e => els.push(e));
+    els.forEach(el => {
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      let n;
+      while ((n = w.nextNode())) {
+        if (RE_ACCENTI.test(n.nodeValue)) { RE_ACCENTI.lastIndex = 0; n.nodeValue = mega(n.nodeValue); }
+        RE_ACCENTI.lastIndex = 0;
+      }
+    });
+  }
+
+  function initMoliga() {
+    fixMoliga(document.body);
+    // titoli che cambiano da soli (headline a rotazione, config da R2, team caricato dopo)
+    new MutationObserver(list => {
+      list.forEach(m => {
+        const t = m.type === 'characterData' ? m.target.parentElement : m.target;
+        if (t && t.closest && t.closest(MOLIGA)) fixMoliga(t.closest(MOLIGA));
+        else m.addedNodes && m.addedNodes.forEach(nd => { if (nd.nodeType === 1) fixMoliga(nd); });
+      });
+    }).observe(document.body, { subtree: true, childList: true, characterData: true });
+  }
+
   function boot() {
+    initMoliga();
     initStudi();
     initBumpers();
     initRise();

@@ -427,7 +427,7 @@ function showMatchToast(speaker, track) {
   }
 
   toast.innerHTML = `
-    <div class="rc-match-toast__badge">✨ AFFINITÀ MUSICALE RC</div>
+    <div class="rc-match-toast__badge">AFFINITÀ MUSICALE RC</div>
     <div class="rc-match-toast__body">
       A te e a <strong>${speaker}</strong> piace la stessa canzone!
     </div>

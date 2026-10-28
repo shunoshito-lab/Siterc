@@ -1,7 +1,8 @@
 /* ============================================================
    RADIO CARDUCCI — STUDI, BUMPER, REVEAL
    Regole del brand: angoli vivi, niente ombre, rosso che irrompe,
-   foto in bianco e nero, testo su blocco pieno ink, tagli secchi.
+   testo su blocco pieno ink, tagli secchi. Le foto degli studi restano
+   a colori (scelta della redazione).
    ============================================================ */
 
 /* ── STUDI ─────────────────────────────────────────────────── */
@@ -35,10 +36,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.18) brightness(0.92);
+  /* a colori: le tende e i muri rossi degli studi sono parte del brand */
+  filter: contrast(1.06) saturate(1.05);
   transition: filter var(--dur-base) var(--ease-out);
 }
-.studi__stage--focus .studi__photo img { filter: grayscale(1) contrast(1.18) brightness(0.55); }
+.studi__stage--focus .studi__photo img { filter: contrast(1.06) saturate(1.05) brightness(0.6); }
 
 /* Taglio da regia al cambio studio */
 .studi__stage--cut .studi__photo--active {
@@ -60,25 +62,27 @@
 .studi__marker {
   position: absolute;
   z-index: 2;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
+  /* piccoli, per non coprire quello che indicano */
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
   padding: 0;
-  border: 2px solid var(--rc-bone);
+  border: 1px solid var(--rc-bone);
   border-radius: 0;
   background: var(--rc-ink);
   color: var(--rc-bone);
   font-family: var(--font-display);
-  font-size: var(--fs-micro);
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
+  line-height: 1;
   cursor: pointer;
   transition: background 120ms var(--ease-out), color 120ms var(--ease-out), border-color 120ms var(--ease-out);
 }
 .studi__marker::after {
   content: "";
   position: absolute;
-  inset: -8px;
+  inset: -5px;
   border: 1px solid var(--rc-red);
   opacity: 0;
 }
@@ -508,4 +512,117 @@
 .fade-in {
   transform: translateY(8px);
   transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
+/* ── TESTI: correzione personale ───────────────────────────── */
+.np-lyrics__offset {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--fg3);
+}
+.np-lyrics__offset-reset {
+  padding: 3px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: none;
+  color: var(--fg2);
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.np-lyrics__offset-reset:hover { color: var(--rc-red); border-color: var(--rc-red); }
+
+/* ── TEAM: schede piene e spigolose ─────────────────────────
+   I cerchi restano per i controlli dell'interfaccia, non per le persone. */
+#team .team__grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+#team .team-member {
+  position: relative;
+  align-items: stretch;
+  gap: 0;
+  text-align: left;
+  background: var(--rc-ink);
+  transition: background 120ms var(--ease-out);
+}
+#team .team-member:hover,
+#team .team-member:focus-visible { background: var(--bg-elev); }
+#team .team-member__photo {
+  max-width: none;
+  aspect-ratio: 4 / 5;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 3px solid var(--c, var(--line-strong));
+  background: var(--bg-inset);
+}
+#team .team-member__photo img {
+  filter: contrast(1.05) saturate(0.85);
+  transition: transform 360ms var(--ease-out), filter 200ms var(--ease-out);
+}
+#team .team-member:hover .team-member__photo img,
+#team .team-member:focus-visible .team-member__photo img { filter: none; transform: scale(1.04); }
+#team .team-member__initials {
+  font-family: var(--font-mega);
+  font-weight: 400;
+  font-size: clamp(40px, 6vw, 72px);
+  color: var(--fg3);
+}
+#team .team-member__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: var(--s-3) var(--s-3) var(--s-4);
+}
+#team .team-member__role {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--ls-caps-wide);
+  text-transform: uppercase;
+  color: var(--c, var(--fg3));
+}
+#team .team-member__name {
+  font-size: var(--fs-body-lg);
+  font-weight: 800;
+  line-height: 1.1;
+}
+#team .team-member__bio {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  color: var(--fg2);
+}
+#team .team-member__progs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+#team .team-member__prog {
+  padding: 2px 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--fg2);
+}
+#team .team-member--highlighted { box-shadow: inset 0 0 0 2px var(--c, var(--rc-red)); }
+#team .team-member--highlighted .team-member__photo { border-color: var(--c, var(--rc-red)); box-shadow: none; }
+#team .team-member:focus-visible { outline: 2px solid var(--c, var(--rc-red)); outline-offset: -2px; }
+#team .team-member:focus-visible .team-member__photo { outline: none; }
+@media (max-width: 520px) {
+  #team .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

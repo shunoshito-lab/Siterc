@@ -48,7 +48,8 @@
     let likes = [], history = {};
     try { likes = JSON.parse(ls('rc_liked_tracks') || '[]') || []; } catch (e) {}
     try { history = JSON.parse(ls('rc_listen_history') || '{}') || {}; } catch (e) {}
-    return { likes, history, prefs: { soundsMuted: ls('rc_sounds_muted') === 'true' } };
+    const off = parseFloat(ls('rc_lyrics_user_offset'));
+    return { likes, history, prefs: { soundsMuted: ls('rc_sounds_muted') === 'true', lyricsOffset: isNaN(off) ? 0 : off } };
   }
 
   function likeKey(t) { return (String(t.artist || '') + '|' + String(t.title || '')).toLowerCase(); }
@@ -82,6 +83,9 @@
       const merged = merge(localData(), me.data || {});
       ls('rc_liked_tracks', JSON.stringify(merged.likes));
       ls('rc_listen_history', JSON.stringify(merged.history));
+      if (typeof merged.prefs.lyricsOffset === 'number' && window.NowPlaying && NowPlaying.setUserOffset) {
+        NowPlaying.setUserOffset(merged.prefs.lyricsOffset);
+      }
       // niente suono "preferito" per i brani che tornano dal server
       window.__rcSyncingLikes = true;
       window.dispatchEvent(new Event('rc-liked-tracks-updated'));
@@ -278,6 +282,7 @@
     renderButton();
     window.addEventListener('rc-liked-tracks-updated', schedulePush);
     document.addEventListener('rc:history-updated', schedulePush);
+    window.addEventListener('rc-lyrics-offset-updated', schedulePush);
     pull();
     return true;
   }
