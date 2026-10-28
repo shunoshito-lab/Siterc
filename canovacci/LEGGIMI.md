@@ -25,3 +25,8 @@ Nei testi, il contenuto tra parentesi tonde diventa la nota a margine RC
 Rigenerare tutto:
 
     node canovacci/genera.mjs
+
+## Tono
+
+I canovacci sono documenti di lavoro per chi conduce: solo contenuto,
+nessun commento interno fra parentesi.

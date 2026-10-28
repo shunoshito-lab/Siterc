@@ -18,8 +18,8 @@ const PROGRAMMI = {
 };
 
 const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-// "(battuta)" → nota RC in corsivo
-const rich = s => esc(s).replace(/\(([^()]{2,})\)/g, '<span class="aside">($1)</span>');
+// I canovacci sono documenti di lavoro: niente commenti interni, solo il contenuto.
+const rich = esc;
 // Moliga non ha accenti: vocale + apostrofo
 const mega = s => String(s).replace(/[àèéìòù]/g, c => ({ 'à': "a'", 'è': "e'", 'é': "e'", 'ì': "i'", 'ò': "o'", 'ù': "u'" }[c]));
 
@@ -75,7 +75,6 @@ function html(c) {
   .num { font-family: Mont, sans-serif; font-weight: 900; font-size: 22pt; color: ${p.colore}; line-height: 1; }
   h2 { font-family: Mont, sans-serif; font-weight: 800; font-size: 13pt; margin: 1mm 0 2mm; }
   p { margin: 0 0 2.2mm; }
-  .aside { font-style: italic; color: #8a8a94; }
   .brano { margin-top: 3mm; padding: 2mm 3mm; background: #1e1e1e; color: #f4f4f5; font-family: Mont, sans-serif; font-size: 8.5pt; font-weight: 700; }
   .brano span { color: ${p.colore}; letter-spacing: .14em; margin-right: 2mm; }
   .scheda { break-before: page; }
