@@ -20,7 +20,8 @@
   function store(key, val) {
     try {
       if (val === undefined) return localStorage.getItem(key);
-      localStorage.setItem(key, val);
+      if (val === null) localStorage.removeItem(key);
+      else localStorage.setItem(key, val);
     } catch (e) { return null; }
   }
 
@@ -523,7 +524,11 @@
     busy: false, lastSaid: 0, queue: [], seen: new Set(), firstTrack: true, lastIdleSay: 0,
 
     init() {
-      if (!DESKTOP || store('rc_mascot_hidden') === 'true') return;
+      let nascosta = false;
+      try { nascosta = sessionStorage.getItem('rc_mascot_hidden') === 'true'; } catch (e) {}
+      // La vecchia versione la nascondeva per sempre: si ripulisce.
+      store('rc_mascot_hidden', null);
+      if (!DESKTOP || nascosta) return;
       if (!this._build()) return;
       this.eye = createEye(this.body.querySelector('svg'), this.el.querySelector('.rc-mascot__iris'));
       this._loop();
@@ -604,13 +609,15 @@
       });
       el.querySelector('.rc-mascot__close').addEventListener('click', () => this.hideBubble());
       this.soundBtn.addEventListener('click', () => RCSfx.setMuted(!RCSfx.muted));
+      el.querySelector('.rc-mascot__hide').title = 'La R torna alla prossima visita';
       this.voiceBtn.addEventListener('click', () => {
         store('rc_voice_muted', String(!voiceMuted()));
         this._syncSoundBtn();
       });
       document.addEventListener('rc:sounds', () => this._syncSoundBtn());
       el.querySelector('.rc-mascot__hide').addEventListener('click', () => {
-        store('rc_mascot_hidden', 'true');
+        // solo per questa visita: alla prossima apertura la R torna
+        try { sessionStorage.setItem('rc_mascot_hidden', 'true'); } catch (e) {}
         el.remove();
         this.el = null;
       });

@@ -238,14 +238,23 @@
       bars.forEach(group => group.forEach((el, i) => { el.style.transform = `scaleY(${Math.max(0.15, Math.min(1, hs[i % 4]))})`; }));
       raf = requestAnimationFrame(frame);
     };
+    // "IN DIRETTA ORA" solo se c'è davvero qualcuno ai microfoni.
+    // Quando va la rotazione musicale si dice quello che è: musica.
+    const testo = () => {
+      const dj = window.NowPlaying && NowPlaying.isLiveDj;
+      return dj ? 'IN DIRETTA ORA' : 'LA MUSICA DI RADIO CARDUCCI';
+    };
+    let acceso = false;
     const set = on => {
+      acceso = on;
       document.body.classList.toggle('rc-on-air', on);
-      badges.forEach(b => { b.querySelector('.rc-live__txt').textContent = on ? 'IN DIRETTA ORA' : b.dataset.off; });
+      badges.forEach(b => { b.querySelector('.rc-live__txt').textContent = on ? testo() : b.dataset.off; });
       cancelAnimationFrame(raf);
       if (on && !REDUCED) raf = requestAnimationFrame(frame);
     };
     audio.addEventListener('playing', () => set(true));
     ['pause', 'ended', 'error'].forEach(ev => audio.addEventListener(ev, () => set(false)));
+    window.addEventListener('rc-live-state', () => { if (acceso) set(true); });
   }
 
   // ═══════════════════════════════════════════════════════════════
@@ -301,35 +310,25 @@
   window.RCFlashBumper = flashBumper;
 
   function initFlashBumpers() {
-    const ov = document.getElementById('np-overlay');
-    if (ov) {
-      let open = ov.classList.contains('active');
-      new MutationObserver(() => {
-        const now = ov.classList.contains('active');
-        if (now && !open) flashBumper('ORA IN ONDA', ov);
-        open = now;
-      }).observe(ov, { attributes: true, attributeFilter: ['class'] });
-      const np = window.NowPlaying;
-      if (np && typeof np.onTrackChange === 'function' && !np._rcFlashHooked) {
-        np._rcFlashHooked = true;
-        const orig = np.onTrackChange;
-        np.onTrackChange = function (track) {
-          const r = orig.apply(this, arguments);
-          if (ov.classList.contains('active') && track && !/^radio carducci/i.test(track)) {
-            const title = track.split(' - ').slice(1).join(' - ') || track;
-            // a tempo con quello che si sente, non con i metadati
-            setTimeout(() => flashBumper('ADESSO: ' + title.toUpperCase(), ov), window.RCStreamDelayMs ? window.RCStreamDelayMs() : 0);
-          }
-          return r;
-        };
+    const audio = document.getElementById('rc-audio');
+    const np = window.NowPlaying;
+    if (!audio || !np || typeof np.onTrackChange !== 'function' || np._rcFlashHooked) return;
+    np._rcFlashHooked = true;
+    const orig = np.onTrackChange;
+    np.onTrackChange = function (track) {
+      const r = orig.apply(this, arguments);
+      // Il bumper esce solo mentre stai ascoltando la diretta e parte un jingle:
+      // è lo stacco fra un brano e l'altro, come in radio.
+      const jingle = !track || /^radio carducci\b/i.test(track) || /in diretta su radio carducci/i.test(track);
+      if (jingle && !audio.paused) {
+        const dove = document.getElementById('np-overlay');
+        const host = dove && dove.classList.contains('active') ? dove : null;
+        setTimeout(() => {
+          if (!audio.paused) flashBumper('STACCO', host);
+        }, window.RCStreamDelayMs ? window.RCStreamDelayMs() : 0);
       }
-    }
-    // ritorno sul sito dopo almeno 2 minuti via
-    let hiddenAt = 0;
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { hiddenAt = Date.now(); return; }
-      if (hiddenAt && Date.now() - hiddenAt > 120000) flashBumper('BENTORNATO', ov && ov.classList.contains('active') ? ov : null);
-    });
+      return r;
+    };
   }
 
   function boot() {

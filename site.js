@@ -2194,6 +2194,7 @@ const NowPlaying = {
   sources: [],
   trackStartTime: Date.now(),
   // Ritardo tra metadati e quello che si sente: misurato dalla redazione tra 3.78 e 3.92 s
+  isLiveDj: false,
   streamLatencyMs: 3850,
   // Anticipo di lettura: la riga si accende un attimo prima di essere cantata
   delayOffset: 0.3,
@@ -2484,6 +2485,9 @@ const NowPlaying = {
         title = 'In Diretta su Radio Carducci';
         trackStr = `${artist} - ${title}`;
       }
+      // "in diretta" vale solo se c'è qualcuno ai microfoni: altrimenti è musica
+      this.isLiveDj = !!(data.live && data.live.is_live && data.live.streamer_name);
+      window.dispatchEvent(new Event('rc-live-state'));
     } else if (data.song) {
       // Evento diretto song da push SSE
       const song = data.song;

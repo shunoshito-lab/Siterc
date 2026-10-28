@@ -115,6 +115,15 @@
       'notte. la città è ferma, lo stream va.',
       'le {ora}: il momento giusto per un ultimo brano. solo uno.',
       'chi ascolta la radio di notte ha sempre qualcosa da pensare.'
+    ,
+      'le {ora}. chi è sveglio adesso ha le sue ragioni.',
+      'a quest\'ora si studia o non si dorme. a volte tutte e due.',
+      'notte. qui non chiude nessuno, perché non c\'è nessuno da chiudere.',
+      'le {ora}: la radio parla piano per non svegliare nessuno.',
+      'il silenzio di fuori lo riempiamo noi.',
+      'le {ora}. domani ti pentirai, ma adesso va bene così.',
+      'chi si sveglia a quest\'ora o ha un esame o ha un\'idea.',
+      'notte piena. volume basso, cuffie giuste.'
     ] },
     { da: 5, a: 7, frasi: [
       'alba. il cielo sopra via Asmara si schiarisce.',
@@ -125,6 +134,15 @@
       'è presto. la radio è già sveglia, tu fai con calma.',
       'buongiorno a chi è già in piedi. agli altri, dopo.',
       'colazione, zaino, cuffie. l\'ordine lo scegli tu.'
+    ,
+      'le {ora}. la sveglia sta per suonare. fatti trovare pronto.',
+      'primo caffè di qualcuno, ultimo di qualcun altro.',
+      'le {ora}. fuori è ancora buio, qui si è già accesi.',
+      'mattina presto: la giornata non ha ancora deciso niente.',
+      'le {ora}. c\'è chi ripassa in bagno. lo sappiamo.',
+      'sveglia. la radio è già in piedi da un pezzo.',
+      'le {ora}. oggi può ancora andare bene.',
+      'alba su Roma. il tragitto comincia adesso.'
     ] },
     { da: 7, a: 8, frasi: [
       'le {ora}. si esce di casa: cuffie nelle orecchie.',
@@ -135,6 +153,15 @@
       'mattina. hai preso tutto? anche il caricatore?',
       'le {ora}. il momento in cui si ripassa sul telefono.',
       'si va. buona giornata, davvero.'
+    ,
+      'le {ora}. metro, autobus o motorino: la scelta è tua.',
+      'si entra tra poco. un brano regge fino al cancello.',
+      'le {ora}. la prima ora non si salva nessuno.',
+      'zaino, cuffie, via. in questo ordine.',
+      'le {ora}. chi corre adesso arriva comunque in ritardo.',
+      'ultimo pezzo prima della campanella.',
+      'le {ora}. buona giornata, sul serio.',
+      'il tragitto è l\'unico momento tuo della mattina. usalo bene.'
     ] },
     { da: 8, a: 10, frasi: [
       'le {ora}. lezioni iniziate: la radio aspetta fuori dall\'aula.',
@@ -145,6 +172,15 @@
       'seconda ora, terza ora. il tempo a scuola ha un ritmo tutto suo.',
       'le {ora}. qualcuno sta interrogando qualcun altro. coraggio.',
       'si studia. la radio fa da sottofondo a chi può.'
+    ,
+      'le {ora}. in aula il telefono sta in tasca. la radio aspetta.',
+      'prima ora: la più lunga di tutte.',
+      'le {ora}. qualcuno sta già guardando l\'orologio.',
+      'si studia. noi teniamo il posto.',
+      'le {ora}. se sei qui invece che in classe, non lo diciamo a nessuno.',
+      'mattina piena. la musica torna all\'intervallo.',
+      'le {ora}. i professori ci ascoltano? dicono di no.',
+      'seconda ora. tieni duro.'
     ] },
     { da: 10, a: 12, frasi: [
       'le {ora}. tra poco intervallo. più o meno.',
@@ -155,6 +191,15 @@
       'le {ora}. corridoio pieno, cuffie piene.',
       'quarta ora. resiste chi resiste.',
       'pausa? un brano e si rientra.'
+    ,
+      'le {ora}. l\'intervallo è il momento più sociale della giornata.',
+      'dieci minuti di pausa valgono due brani.',
+      'le {ora}. c\'è chi mangia e chi ripassa. e chi fa finta.',
+      'corridoi pieni, cuffie piene.',
+      'le {ora}. quarta ora: la resistenza è una virtù.',
+      'metà mattina. da qui in giù è discesa.',
+      'le {ora}. qualcuno sta già pensando a cosa fa dopo.',
+      'il distributore è sempre guasto. lo sappiamo anche noi.'
     ] },
     { da: 12, a: 14, frasi: [
       'le {ora}. ultime ore, ultimi sforzi.',
@@ -165,6 +210,15 @@
       'le {ora}. zaino in spalla, cuffie in testa.',
       'si torna a casa. il tragitto è della radio.',
       'uscita. oggi com\'è andata? non rispondere, metti un brano.'
+    ,
+      'le {ora}. ultime due ore, poi liberi.',
+      'si avvicina l\'uscita: la playlist è pronta.',
+      'le {ora}. chi ha finito, buon pranzo.',
+      'campanella in arrivo. il resto lo fa la musica.',
+      'le {ora}. il tragitto di ritorno è il momento migliore per ascoltare.',
+      'mezzogiorno passato: la giornata cambia marcia.',
+      'le {ora}. oggi com\'è andata? raccontalo a qualcuno.',
+      'usciti. adesso si decide cosa fare del pomeriggio.'
     ] },
     { da: 14, a: 16, frasi: [
       'le {ora}. pranzo fatto, compiti in vista.',
@@ -175,6 +229,15 @@
       'compiti e musica, nell\'ordine che preferisci.',
       'dopo pranzo: un po\' di energia non guasta.',
       'le {ora}. se ti serve concentrazione, prova l\'esplora.'
+    ,
+      'le {ora}. pranzo finito, libri aperti. teoricamente.',
+      'primo pomeriggio: il momento in cui si rimanda tutto.',
+      'le {ora}. venticinque minuti di studio e una pausa. funziona.',
+      'pomeriggio. se devi concentrarti, prova l\'esplora.',
+      'le {ora}. chi ha allenamento è già in ritardo.',
+      'dopo pranzo serve una spinta. ci pensiamo noi.',
+      'le {ora}. i compiti non si fanno da soli. purtroppo.',
+      'pomeriggio lento. la musica lo rende sopportabile.'
     ] },
     { da: 16, a: 18, frasi: [
       'le {ora}. pomeriggio pieno: allenamenti, lezioni, compiti.',
@@ -185,6 +248,15 @@
       'luce che cala, playlist che sale.',
       'le {ora}. ancora un esercizio e poi basta.',
       'pomeriggio tardo. il momento delle idee migliori.'
+    ,
+      'le {ora}. il pomeriggio è il momento delle idee migliori.',
+      'merenda, compiti, prove. in qualche ordine.',
+      'le {ora}. in regia qualcuno sta preparando la prossima diretta.',
+      'la luce cala, il volume sale.',
+      'le {ora}. ancora un esercizio, poi basta davvero.',
+      'pomeriggio pieno: scuola finita, giornata no.',
+      'le {ora}. chi suona, chi studia, chi ascolta. tutti qui.',
+      'quasi sera. il momento buono per scoprire un pezzo nuovo.'
     ] },
     { da: 18, a: 20, frasi: [
       'le {ora}. tramonto su Roma, o almeno da qualche parte.',
@@ -195,6 +267,15 @@
       'luci accese, volume giusto.',
       'le {ora}. il momento di raccontare com\'è andata.',
       'sera. qui la diretta continua.'
+    ,
+      'le {ora}. tramonto, e la giornata si alleggerisce.',
+      'sera che arriva. la radio cambia tono.',
+      'le {ora}. cena fra poco: un ultimo brano.',
+      'si stacca. finalmente.',
+      'le {ora}. se hai finito i compiti, bravo. se no, pazienza.',
+      'luci accese in casa, luci accese in studio.',
+      'le {ora}. è l\'ora in cui si racconta la giornata.',
+      'prima serata: qui si ascolta meglio.'
     ] },
     { da: 20, a: 22, frasi: [
       'le {ora}. cena fatta, divano vicino.',
@@ -204,6 +285,15 @@
       'le {ora}. qualcuno ripassa, qualcuno ascolta. anche entrambi.',
       'la giornata è quasi finita. bene così.',
       'le {ora}. chiudi i libri, apri le orecchie.',
+      'sera tranquilla. il volume lo decidi tu.'
+    ,
+      'le {ora}. divano, cuffie, niente fretta.',
+      'sera. il palinsesto di domani è già on line.',
+      'le {ora}. un brano tranquillo prima di preparare lo zaino.',
+      'prima serata: musica per non pensare a domani.',
+      'le {ora}. chi ripassa adesso fa bene. chi ascolta anche.',
+      'la giornata è quasi chiusa. bene così.',
+      'le {ora}. domani si ricomincia, ma non adesso.',
       'sera tranquilla. il volume lo decidi tu.'
     ] },
     { da: 22, a: 24, frasi: [
@@ -215,6 +305,15 @@
       'notte che arriva. luci basse e diretta bassa.',
       'le {ora}. domani si ricomincia. con la radio, possibilmente.',
       'buonanotte da radio carducci. lo stream resta acceso.'
+    ,
+      'le {ora}. domani c\'è scuola: ancora uno e poi basta.',
+      'tardi. abbassa un po\', gli altri dormono.',
+      'le {ora}. sveglia puntata? controlla davvero.',
+      'fine giornata. grazie di essere passato.',
+      'le {ora}. l\'ultimo brano è sempre il più lungo.',
+      'notte in arrivo: luci basse e volume basso.',
+      'le {ora}. domani ci risentiamo.',
+      'buonanotte. lo stream resta acceso lo stesso.'
     ] }
   ];
   const FRASI_WEEKEND = [
