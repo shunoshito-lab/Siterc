@@ -217,6 +217,19 @@ window.RC_FRASI = {
     'è iniziato {programma}. da adesso si parla, non solo musica.'
   ],
 
+  // il mouse va verso l'alto, come per chiudere la scheda
+  uscita: [
+    'aspetta. te ne vai proprio adesso.',
+    'un attimo. la diretta non finisce quando chiudi la scheda.',
+    'stai per andartene. va bene, ma prima salva un brano.',
+    'ehi, dove vai. qui c\'è ancora roba.'
+  ],
+  // tre clic di fila sulla R
+  pokeRaffica: [
+    'ok, ok, ho capito. sono cliccabile.',
+    'calma. ho un occhio solo.',
+    'tre clic in due secondi. record della giornata.'
+  ],
   studiSpot: [],
   login: [
     'fatto. da adesso mi ricordo di te, anche su un altro telefono.',

@@ -82,7 +82,10 @@
       const merged = merge(localData(), me.data || {});
       ls('rc_liked_tracks', JSON.stringify(merged.likes));
       ls('rc_listen_history', JSON.stringify(merged.history));
+      // niente suono "preferito" per i brani che tornano dal server
+      window.__rcSyncingLikes = true;
       window.dispatchEvent(new Event('rc-liked-tracks-updated'));
+      window.__rcSyncingLikes = false;
       renderButton();
       await call('PUT', '/me', { data: merged });
     } catch (e) {

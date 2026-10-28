@@ -27,6 +27,8 @@
   // ── Un solo AudioContext, sbloccato al primo gesto dell'utente ──
   let ctx = null;
   function getCtx() {
+    // stesso contesto audio dei campioni (rc-sfx.js), se c'è
+    if (!ctx && window.RCSamples) ctx = RCSamples.ctx();
     if (!ctx) {
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return null;
@@ -157,9 +159,7 @@
         if (el && el !== last) this.hover();
         last = el;
       });
-      document.addEventListener('click', e => {
-        if (e.target.closest && e.target.closest(SEL)) this.click();
-      });
+      // il clic sui pulsanti lo suona rc-sfx.js con i campioni dei tasti
     }
   };
 
@@ -199,6 +199,16 @@
     out.connect(c.destination);
     o.start(t);
     o.stop(t + dur + 0.02);
+  }
+
+  // La voce della R: il campione pixel-text, con il tono che cambia a ogni lettera.
+  // Se il campione non è ancora caricato, si usa la voce sintetizzata.
+  function speak(ch) {
+    const code = ch.toLowerCase().charCodeAt(0);
+    const vowel = 'aeiouàèéìòù'.includes(ch.toLowerCase());
+    const rate = 0.86 + ((code * 7) % 13) / 30 + (vowel ? 0.06 : 0);
+    if (window.RCSamples && RCSamples.ready('text') && RCSamples.play('text', { rate, vol: 0.45, gap: 0 })) return;
+    syllable(ch);
   }
 
   // ═══════════════════════════════════════════════════════════════
@@ -564,13 +574,22 @@
       this.soundBtn = el.querySelector('.rc-mascot__sound');
       this._syncSoundBtn();
 
+      let pokes = [];
       this.body.addEventListener('click', () => {
+        const nowP = Date.now();
+        pokes = pokes.filter(t => nowP - t < 2500).concat(nowP);
         this.el.classList.remove('rc-mascot--poked');
         void this.el.offsetWidth;
         this.el.classList.add('rc-mascot--poked');
         this.eye.blink();
-        RCSfx.pop();
         // A volte, invece della battuta, propone la diretta
+        if (pokes.length >= 3) {
+          pokes = [];
+          if (window.RCSamples) RCSamples.play('haha', { vol: 0.6 });
+          this.say(Frasi.get('pokeRaffica'), true, { interrupt: true });
+          return;
+        }
+        if (window.RCSamples && Math.random() < 0.3) RCSamples.play('a', { vol: 0.6 });
         if (!liveIsPlaying() && Math.random() < 0.25) this.say(Frasi.get('ctaDiretta'), true, { cta: true });
         else this.say(Frasi.get('poke'), true);
       });
@@ -602,6 +621,12 @@
       if (!this.el || !line) return;
       opts = opts || {};
       const now = Date.now();
+      // alcune battute tagliano quella in corso (raffica di clic, uscita)
+      if (this.busy && opts.interrupt) {
+        this._sayId = (this._sayId || 0) + 1;
+        this.busy = false;
+        this.el.classList.remove('rc-mascot--talking');
+      }
       if (this.busy) {
         if (!this.queue.some(q => q.line === line)) this.queue.push({ line, opts });
         if (this.queue.length > 3) this.queue.shift();
@@ -631,14 +656,15 @@
 
       this.text.textContent = '';
       this.el.classList.add('rc-mascot--talking');
+      const id = this._sayId = (this._sayId || 0) + 1;
       let i = 0;
       const voiceOn = () => !RCSfx.muted && ctx && ctx.state === 'running' && !anyAudioPlaying();
       const step = () => {
-        if (!this.el) return;
+        if (!this.el || id !== this._sayId) return;
         if (i >= line.length) { finish(); return; }
         const ch = line[i++];
         this.text.textContent += ch;
-        if (/[a-zà-ù]/i.test(ch) && i % 2 === 0 && voiceOn()) syllable(ch);
+        if (/[a-zà-ù]/i.test(ch) && i % 2 === 0 && voiceOn()) speak(ch);
         setTimeout(step, /[.,:]/.test(ch) ? 190 : 32);
       };
       step();
@@ -729,13 +755,18 @@
       if (!audio) return;
       let saidLive = false, startedAt = 0;
       audio.addEventListener('playing', () => {
+        if (window.RCSamples && Date.now() - startedAt > 3000) RCSamples.play('ahYeah', { vol: 0.55 });
         startedAt = Date.now();
         if (saidLive) return;
         saidLive = true;
         this.say(Frasi.get('live'), true);
       });
       audio.addEventListener('pause', () => {
-        if (startedAt && Date.now() - startedAt > 8000 && Math.random() < 0.6) this.say(Frasi.get('pausa'));
+        if (audio.ended) return;
+        if (startedAt && Date.now() - startedAt > 8000) {
+          if (window.RCSamples) RCSamples.play('dontStop', { vol: 0.55 });
+          if (Math.random() < 0.6) this.say(Frasi.get('pausa'));
+        }
       });
       audio.addEventListener('error', () => {
         if (audio.getAttribute('src')) this.say(Frasi.get('offline'), true);
@@ -825,6 +856,16 @@
         }
         lastY = window.scrollY; lastT = now;
       }, { passive: true });
+
+      // il mouse esce dall'alto della finestra: sta per chiudere o cambiare scheda
+      let warned = false;
+      document.addEventListener('mouseout', e => {
+        if (warned || e.relatedTarget || e.clientY > 8) return;
+        warned = true;
+        if (window.RCSamples) RCSamples.play('waitAMinute', { vol: 0.55 });
+        this.eye.lookAt(e.clientX, -200, 900);
+        this.say(Frasi.get('uscita'), true, { interrupt: true });
+      });
 
       document.addEventListener('rc:login', e => {
         this.say(Frasi.get('login', { nome: e.detail && e.detail.name }), true);

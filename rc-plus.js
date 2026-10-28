@@ -161,6 +161,7 @@
 
       b.querySelector('.rc-bumper__next').addEventListener('click', () => {
         idx++;
+        if (window.RCSamples) RCSamples.play('dropTheBeat', { vol: 0.55, gap: 1500 });
         b.classList.add('rc-bumper--blank');
         setTimeout(() => { b.classList.remove('rc-bumper--blank'); play(true); }, 140);
       });
