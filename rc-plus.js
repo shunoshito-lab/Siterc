@@ -240,15 +240,19 @@
     };
     // "IN DIRETTA ORA" solo se c'è davvero qualcuno ai microfoni.
     // Quando va la rotazione musicale si dice quello che è: musica.
-    const testo = () => {
+    // Nella barra in basso e in alto c'è poco spazio: lì la versione corta,
+    // altrimenti il badge si mangia il titolo del brano.
+    const stretto = b => !!b.closest('.player-bar, nav');
+    const testo = b => {
       const dj = window.NowPlaying && NowPlaying.isLiveDj;
-      return dj ? 'IN DIRETTA ORA' : 'LA MUSICA DI RADIO CARDUCCI';
+      if (dj) return stretto(b) ? 'IN DIRETTA' : 'IN DIRETTA ORA';
+      return stretto(b) ? 'MUSICA' : 'LA MUSICA DI RADIO CARDUCCI';
     };
     let acceso = false;
     const set = on => {
       acceso = on;
       document.body.classList.toggle('rc-on-air', on);
-      badges.forEach(b => { b.querySelector('.rc-live__txt').textContent = on ? testo() : b.dataset.off; });
+      badges.forEach(b => { b.querySelector('.rc-live__txt').textContent = on ? testo(b) : b.dataset.off; });
       cancelAnimationFrame(raf);
       if (on && !REDUCED) raf = requestAnimationFrame(frame);
     };

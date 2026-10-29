@@ -971,3 +971,8 @@ body.theme-explore .rc-focus .rc-focus__phrase { color: var(--fg1) !important; }
    con il tasto Tab: era il primo elemento messo a fuoco della pagina. */
 .np-overlay:not(.active) { visibility: hidden; }
 .np-overlay.active { visibility: visible; }
+
+/* Il badge non deve mai spingere via il titolo del brano */
+.player-bar .rc-live { flex: none; white-space: nowrap; }
+.player-bar .rc-live__txt { max-width: 9ch; overflow: hidden; text-overflow: ellipsis; }
+nav .rc-live { white-space: nowrap; }

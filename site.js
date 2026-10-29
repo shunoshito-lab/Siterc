@@ -4451,8 +4451,8 @@ function initPreferiti() {
       list.forEach(item => {
         if (item && typeof item === 'object') {
           const t = (item.title || '').toLowerCase();
-          if (t.includes('from here') || item.speaker === 'Tommaso Staino Baldino') {
-            item.speaker = 'Simone Palmieri';
+          if (t.includes('from here') || item.speaker === 'Tommaso Staino Baldino' || item.speaker === 'Simone Palmieri') {
+            item.speaker = 'Staff Carducci';
             migrated = true;
           }
         }
@@ -4484,7 +4484,7 @@ function initPreferiti() {
     if (idx >= 0) {
       liked.splice(idx, 1);
     } else {
-      const speakerName = track.speaker || (track.title?.toLowerCase().includes('from here') ? 'Simone Palmieri' : 'Staff Carducci');
+      const speakerName = track.speaker || 'Staff Carducci';
       liked.push({
         title: track.title,
         artist: track.artist,
@@ -4615,8 +4615,8 @@ function initPreferiti() {
           const artist = item.artist || 'Radio Carducci';
           const cover = item.cover || 'assets/logo-rc-mark-bone.svg';
           let speaker = item.speaker || 'Staff Carducci';
-          if (speaker.includes('Tommaso Staino') || (title && title.toLowerCase().includes('from here'))) {
-            speaker = 'Simone Palmieri';
+          if (speaker.includes('Tommaso Staino') || speaker === 'Simone Palmieri') {
+            speaker = 'Staff Carducci';
           }
           const isPlaying = currentPreviewTrack === title;
           const hasLiked = isLiked(item);
