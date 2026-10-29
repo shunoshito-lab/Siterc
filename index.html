@@ -17,6 +17,14 @@
   <link rel="stylesheet" href="rc-plus.css?v=15">
   <link rel="stylesheet" href="rc-spigolo.css?v=2">
   <link rel="stylesheet" href="rc-carico.css?v=2">
+  <link rel="stylesheet" href="rc-studio3d.css?v=2">
+  <script type="importmap">
+  {"imports":{
+    "three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+    "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+  }}
+  </script>
+
   <link rel="stylesheet" href="mascotte.css?v=3">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 </head>
@@ -304,6 +312,33 @@
       <a href="https://maps.app.goo.gl/76H7wDSfky7S8FRbA" target="_blank" rel="noopener" class="btn">Apri su Google Maps ↗</a>
     </div>
   </section>
+
+  <section id="studio3d" class="fade-in" role="region" aria-label="Lo studio in 3D">
+    <div class="section-label fade-in">
+      <span>LO STUDIO IN 3D · GIRALO COME VUOI</span>
+      <span>TRASCINA PER RUOTARE</span>
+    </div>
+
+    <div class="s3d__palco">
+      <canvas class="s3d__tela" aria-label="Modello 3D dello studio"></canvas>
+      <div class="s3d__punti"></div>
+
+      <div class="s3d__coperta">
+        <p class="s3d__coperta-tit">ENTRA IN STUDIO</p>
+        <p class="s3d__coperta-nota">La stanza e’ un modello 3D da 16 MB: si scarica solo se lo chiedi tu, cosi’ non pesa a chi passa di qui per ascoltare e basta.</p>
+        <button type="button" class="s3d__entra">ENTRA NELLO STUDIO</button>
+      </div>
+
+      <div class="s3d__hud" role="status">
+        <button type="button" class="s3d__hud-chiudi" aria-label="Chiudi la didascalia">×</button>
+        <p class="s3d__hud-tit"></p>
+        <p class="s3d__hud-txt"></p>
+      </div>
+    </div>
+
+    <p class="s3d__nota">Modello 3D su licenza <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>. L’autore va accreditato qui: serve il nome da Sketchfab.</p>
+  </section>
+
 
   <aside class="rc-bumper rc-bumper--red" aria-label="Bumper Radio Carducci" data-bumper-start="2">
     <div class="rc-bumper__top"><span>RC</span><span class="rc-bumper__num">000</span></div>
@@ -774,6 +809,7 @@
   <script src="rc-spigolo.js?v=2" defer></script>
   <script src="rc-gatto.js?v=1" defer></script>
   <script src="rc-carico.js?v=2" defer></script>
+  <script src="rc-studio3d.js?v=2" defer></script>
   <script src="rc-angolo.js?v=1"></script>
   <script src="mascotte-frasi.js?v=3"></script>
   <script src="mascotte.js?v=8"></script>
