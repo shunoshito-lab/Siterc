@@ -1,0 +1,82 @@
+/* ============================================================
+   SPIGOLO — il pappagallo di Radio Carducci
+   Vola dietro al cursore, si posa sui bottoni, e la sua coda
+   diventa l'equalizzatore nella meta' bassa del bottone.
+   Quattro colori, nessuna ombra, nessun raggio: come il resto.
+   ============================================================ */
+
+.sp {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 72px;
+  z-index: 60;              /* sopra la pagina, sotto le tendine */
+  pointer-events: none;     /* non deve mai rubare un clic */
+  will-change: transform;
+  transform: translate3d(-200px, -200px, 0);
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out, ease);
+}
+.sp.sp--on { opacity: 1; }
+.sp svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* il perno della rotazione sta sulle zampe, non al centro */
+.sp { transform-origin: 50% 92%; }
+
+/* le ali battono solo in volo */
+.sp__wing { transform-box: fill-box; transform-origin: 50% 12%; }
+
+/* la coda corta si vede in volo; posato, la coda e' l'equalizzatore */
+.sp__tail { transition: opacity 120ms var(--ease-out, ease); }
+.sp--perch .sp__tail { opacity: 0; }
+
+/* ── equalizzatore/coda sul bottone ───────────────────────── */
+.sp-eq {
+  position: fixed;
+  z-index: 59;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out, ease);
+}
+.sp-eq.sp-eq--on { opacity: 1; }
+.sp-eq__bar {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  margin-left: -1.5px;
+  transform-origin: 50% 0;
+  background: var(--rc-red, #db3849);
+  will-change: transform;
+}
+.sp-eq__bar:nth-child(2n) { background: var(--rc-red-deep, #991c3b); }
+.sp-eq__bar:nth-child(5)  { background: var(--rc-bone, #f4f4f5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sp, .sp-eq { display: none; }
+}
+
+/* ── IL GATTO ──────────────────────────────────────────────
+   Corre sul fondo, dietro al pappagallo. Non copre mai niente:
+   sta sopra la barra del player e non prende clic. */
+.gt {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 112px;
+  height: 68px;
+  z-index: 58;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(-400px, -400px, 0);
+  opacity: 0;
+  transition: opacity 360ms var(--ease-out, ease);
+}
+.gt.gt--on { opacity: 0.92; }
+.gt svg { display: block; width: 100%; height: 100%; overflow: visible; translate: 0 calc(var(--sob, 0px) * -1); }
+.gt .g__zampa { transform-box: fill-box; transform-origin: 50% 8%; }
+.gt .g__coda { transform-box: fill-box; transform-origin: 100% 100%; animation: gt-coda 1.6s var(--ease-out, ease) infinite alternate; }
+@keyframes gt-coda { from { transform: rotate(-8deg); } to { transform: rotate(10deg); } }
+
+@media (prefers-reduced-motion: reduce) { .gt { display: none; } }

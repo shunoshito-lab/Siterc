@@ -1,0 +1,82 @@
+/* ============================================================
+   LA BARCA DEL CARICAMENTO
+   Schermata piena, quattro colori, nessuna ombra.
+   ============================================================ */
+.crc {
+  position: fixed;
+  inset: 0;
+  z-index: 100090;   /* sopra ogni tendina: il caricamento copre tutto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-5, 24px);
+  background: var(--rc-ink, #1e1e1e);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms var(--ease-out, ease), visibility 0s linear 200ms;
+}
+.crc.crc--on { opacity: 1; visibility: visible; transition-delay: 0s; }
+
+.crc__scena { width: min(78vw, 420px); height: auto; overflow: hidden; }
+
+/* la barca becheggia: su, giu', e un filo di rollio */
+.crc__barca {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: crc-becheggio 2.4s var(--ease-out, ease-in-out) infinite;
+}
+@keyframes crc-becheggio {
+  0%   { transform: translateY(0) rotate(-3deg); }
+  50%  { transform: translateY(-6px) rotate(3deg); }
+  100% { transform: translateY(0) rotate(-3deg); }
+}
+
+/* le onde scorrono a velocita' diverse: si vede la profondita' */
+.crc__onda { animation: crc-onda linear infinite; }
+.crc__onda--1 { animation-duration: 2.6s; }
+.crc__onda--2 { animation-duration: 3.8s; }
+.crc__onda--3 { animation-duration: 5.2s; }
+@keyframes crc-onda {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-160px); }
+}
+
+.crc__fumo { animation: crc-fumo 2.2s linear infinite; }
+.crc__fumo--2 { animation-duration: 3s; animation-delay: 0.7s; }
+@keyframes crc-fumo {
+  from { transform: translate(0, 0) scale(0.6); opacity: 0.5; }
+  to   { transform: translate(-22px, -30px) scale(1.6); opacity: 0; }
+}
+
+.crc__frase {
+  margin: 0;
+  font-family: var(--font-display, sans-serif);
+  font-size: clamp(14px, 2.4vw, 20px);
+  font-weight: 700;
+  letter-spacing: var(--ls-caps-wide, 0.12em);
+  text-transform: uppercase;
+  color: var(--rc-bone, #f4f4f5);
+  text-align: center;
+  padding-inline: var(--s-4, 16px);
+  transition: opacity 200ms var(--ease-out, ease);
+}
+
+.crc__barra {
+  width: min(70vw, 360px);
+  height: 2px;
+  background: var(--line, rgba(255,255,255,0.18));
+  overflow: hidden;
+}
+.crc__barra i {
+  display: block;
+  height: 100%;
+  background: var(--rc-red, #db3849);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 200ms var(--ease-out, ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crc__barca, .crc__onda, .crc__fumo { animation: none; }
+}
