@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Spigolo, proposta 1: geometrica">
+  <title>Spigolo — proposta 1, geometrica</title>
+  <!-- Radio Carducci. Stessa anatomia della proposta 2, ma tutta a segmenti
+       dritti: nessuna curva, come il resto del brand. L'iride ha id="iris". -->
+  <g id="spigolo">
+    <!-- coda -->
+    <path fill="#991c3b" d="M98 148 L54 196 L72 190 L92 160 Z"/>
+    <path fill="#db3849" d="M112 146 L80 198 L98 190 L112 162 Z"/>
+
+    <!-- corpo -->
+    <path fill="#db3849" d="M94 68 L130 80 L148 118 L140 156 L108 172 L76 160 L62 124 L68 88 Z"/>
+    <!-- petto chiaro -->
+    <path fill="#f4f4f5" d="M98 98 L126 110 L130 142 L108 164 L82 150 L76 118 Z"/>
+
+    <!-- ala -->
+    <path fill="#991c3b" d="M112 84 L146 106 L146 142 L126 156 L132 116 Z"/>
+
+    <!-- zampe -->
+    <path fill="#1e1e1e" d="M86 166 h8 v14 h14 v7 H86 Z"/>
+    <path fill="#1e1e1e" d="M112 166 h8 v14 h14 v7 h-22 Z"/>
+
+    <!-- testa -->
+    <path fill="#db3849" d="M96 18 L126 28 L138 56 L132 86 L100 100 L70 90 L60 60 L70 32 Z"/>
+
+    <!-- cresta -->
+    <path fill="#f4f4f5" d="M100 22 L104 0 L112 22 Z"/>
+    <path fill="#f4f4f5" d="M114 26 L132 6 L124 32 Z"/>
+    <path fill="#991c3b" d="M126 38 L150 26 L132 46 Z"/>
+
+    <!-- becco: superiore con l'uncino -->
+    <path fill="#f4f4f5" d="M66 46 L24 66 L28 82 L50 86 L52 62 Z"/>
+    <!-- inferiore -->
+    <path fill="#991c3b" d="M50 80 L32 88 L44 96 L62 92 Z"/>
+    <!-- narice -->
+    <path fill="#1e1e1e" opacity="0.35" d="M58 54 l6 -2 l2 6 l-6 2 Z"/>
+
+    <!-- occhio -->
+    <path fill="#f4f4f5" d="M80 40 L106 38 L108 64 L82 66 Z"/>
+    <path id="iris" fill="#1e1e1e" d="M86 46 L98 45 L99 58 L87 59 Z"/>
+  </g>
+</svg>

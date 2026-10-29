@@ -1,0 +1,64 @@
+{
+ "programma": "cose-da-nerd",
+ "titolo": "CES 2026",
+ "data": "2026-01-14",
+ "conduzione": "Marta e Simone",
+ "ospite": "",
+ "intro": "Puntata 2. Cinque talk, una canzone dopo ognuno. Redazione: Simone.",
+ "blocchi": [
+  {
+   "tipo": "talk",
+   "titolo": "Cos'è il CES",
+   "testo": [
+    "Il CES è la fiera tecnologica più importante al mondo per l'elettronica di consumo. Si tiene ogni anno a gennaio a Las Vegas, di solito dal 6 al 9, organizzata dalla Consumer Technology Association.",
+    "È un evento riservato agli addetti ai lavori, non aperto al pubblico: aziende, sviluppatori, produttori, investitori, media e professionisti si incontrano per mostrare prototipi, lanciare prodotti, fare annunci e chiudere accordi.",
+    "I numeri: oltre 4.000 espositori, fra 100.000 e 140.000 partecipanti, milioni di metri quadri di spazio espositivo.",
+    "Lo spazio è diviso in padiglioni tematici. Central Hall: intrattenimento, display avanzati, televisori OLED e MicroLED, audio e video, gaming, creazione di contenuti. West Hall: mobilità, auto elettriche e a guida autonoma, con Hyundai, BMW, Mercedes e Sony-Honda. North Hall: imprese, intelligenza artificiale, internet delle cose, città intelligenti, sicurezza informatica. South Hall: design, componentistica e manifattura.",
+    "In sintesi: dal gadget per il pubblico alle soluzioni per le aziende, è il posto dove si vede la tecnologia con uno o due anni di anticipo."
+   ],
+   "brano": "Kavinsky - Nightcall"
+  },
+  {
+   "tipo": "talk",
+   "titolo": "I robot umanoidi",
+   "testo": [
+    "Al CES 2026 i robot umanoidi sono stati uno dei temi principali. Boston Dynamics ha presentato la versione di produzione di Atlas, completamente elettrico, pensato per compiti industriali: 56 gradi di libertà, portata fino a 2,3 metri, capacità di sollevamento di 50 chili e quattro ore di autonomia con batteria sostituibile a caldo.",
+    "Funziona in ambienti non strutturati grazie a sensori che rilevano persone e oggetti. La produzione è già iniziata a Boston, con le prime consegne nel 2026 a Hyundai e a Google DeepMind, che integrerà i modelli Gemini Robotics per migliorarne le capacità.",
+    "Altri umanoidi in evidenza: LG CLOiD, mostrato in casa mentre piega il bucato, carica la lavastoviglie e prepara cibi semplici; SwitchBot Onero H1 per i lavori domestici; Unitree G1, con dimostrazioni di movimenti rapidi.",
+    "Il passaggio importante è un altro: non più prototipi, ma modelli con un piano di impiego reale fra il 2026 e il 2028, soprattutto in produzione e logistica."
+   ],
+   "brano": "FM-84 - Running in the Night"
+  },
+  {
+   "tipo": "talk",
+   "titolo": "Videogiochi e gaming",
+   "testo": [
+    "Nvidia ha annunciato DLSS 4.5: una tecnologia che ricostruisce immagini ad alta risoluzione partendo da quelle a bassa, così il gioco gira più fluido senza perdere qualità. La nuova versione genera fino a cinque fotogrammi in più per ognuno disegnato davvero, e arriva a 4K con oltre 240 fotogrammi al secondo. Supporta più di 400 giochi sulle schede RTX; fra i titoli, 007 First Light, PRAGMATA e Resident Evil Requiem.",
+    "Razer ha mostrato Project AVA: un ologramma da scrivania dentro un tubo da 5,5 pollici, con personaggi in 3D, telecamera e microfono, che fa da allenatore mentre giochi. Uscita prevista per l'estate 2026.",
+    "Project Motoko è una cuffia con due telecamere per assistenza visiva e gioco.",
+    "Lenovo Legion Go 2 SteamOS Edition: console portatile con AMD Ryzen Z2 Extreme, fino a 32 GB di memoria e 2 TB di disco, 1.199 dollari, da giugno 2026.",
+    "FlipPad: un controller a conchiglia da attaccare al telefono, in stile Game Boy, estate 2026."
+   ],
+   "brano": "Twenty One Pilots - RAWFEAR"
+  },
+  {
+   "tipo": "talk",
+   "titolo": "E per i fumetti?",
+   "testo": [
+    "Anche i fumetti digitali hanno avuto il loro spazio. La notizia più rilevante è l'accordo fra Disney, Marvel e Webtoon: nel 2026 nasce una piattaforma globale di fumetti digitali.",
+    "Webtoon, leader nei fumetti verticali per telefono con oltre 155 milioni di lettori al mese, gestirà il servizio, che comprenderà più di 35.000 titoli fra Marvel, Star Wars, Pixar, Disney e 20th Century Studios: classici riformattati per lo scorrimento verticale e serie originali. Disney ha investito circa il 2% in Webtoon.",
+    "Sui lettori, il CES ha messo in mostra schermi e-ink adatti a fumetti e manga. Amazon continua con i Kindle Colorsoft da 7 pollici, a colori e impermeabili. Bigme ha presentato tavolette e-ink a colori da 10 e 13 pollici, mentre Onyx Boox e PocketBook hanno aggiornato i loro Kaleido per colori più vivi.",
+    "Webtoon ha anche annunciato l'ampliamento del programma per gli autori: più possibilità di guadagno per gli indipendenti, strumenti migliori e supporto per le fiere internazionali."
+   ],
+   "brano": "Glass Animals - Take a Slice"
+  },
+  {
+   "tipo": "talk",
+   "titolo": "Outro",
+   "testo": [
+    "Saluti e appuntamento alla prossima puntata."
+   ],
+   "brano": "Empire of the Sun - Alive"
+  }
+ ]
+}

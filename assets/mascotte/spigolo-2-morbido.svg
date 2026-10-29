@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Spigolo, proposta 2: morbida">
+  <title>Spigolo — proposta 2, morbida</title>
+  <!-- Radio Carducci. Quattro colori, forme piene: più da mascotte che da logo.
+       Pappagallo di tre quarti, rivolto a sinistra. L'iride ha id="iris". -->
+  <g id="spigolo">
+    <!-- coda: due penne lunghe dietro -->
+    <path fill="#991c3b" d="M100 150 C92 170 76 188 56 196 C62 176 72 158 86 146 Z"/>
+    <path fill="#db3849" d="M110 148 C108 170 98 188 82 198 C84 176 90 158 98 144 Z"/>
+
+    <!-- corpo -->
+    <path fill="#db3849" d="M96 70 C124 70 146 96 148 126 C150 156 130 172 104 172 C78 172 62 154 62 124 C62 94 74 70 96 70 Z"/>
+    <!-- petto chiaro -->
+    <path fill="#f4f4f5" d="M100 96 C118 96 130 112 130 132 C130 152 116 164 100 164 C84 164 72 152 72 132 C72 112 82 96 100 96 Z"/>
+
+    <!-- ala -->
+    <path fill="#991c3b" d="M110 84 C132 88 146 108 146 130 C146 148 136 158 126 156 C134 134 128 104 110 84 Z"/>
+
+    <!-- zampe -->
+    <path fill="#1e1e1e" d="M86 166 h8 v14 h14 v7 H86 Z"/>
+    <path fill="#1e1e1e" d="M112 166 h8 v14 h14 v7 h-22 Z"/>
+
+    <!-- testa -->
+    <path fill="#db3849" d="M98 20 C122 20 138 40 138 62 C138 86 120 100 96 100 C72 100 62 84 62 60 C62 38 76 20 98 20 Z"/>
+
+    <!-- cresta: tre penne all'indietro -->
+    <path fill="#f4f4f5" d="M100 22 C96 8 100 0 108 0 C110 10 108 18 106 24 Z"/>
+    <path fill="#f4f4f5" d="M114 26 C116 10 126 2 132 8 C126 16 120 24 118 30 Z"/>
+    <path fill="#991c3b" d="M126 36 C134 24 146 22 148 30 C140 34 132 40 128 44 Z"/>
+
+    <!-- becco: mandibola superiore con l'uncino -->
+    <path fill="#f4f4f5" d="M64 48 C44 50 26 60 24 72 C23 82 36 88 50 86 C48 74 54 58 64 48 Z"/>
+    <!-- mandibola inferiore -->
+    <path fill="#991c3b" d="M50 80 C40 82 32 86 33 90 C36 96 52 98 62 92 C56 90 52 86 50 80 Z"/>
+    <!-- narice -->
+    <circle cx="60" cy="56" r="3" fill="#1e1e1e" opacity="0.35"/>
+
+    <!-- occhio -->
+    <circle cx="92" cy="52" r="16" fill="#f4f4f5"/>
+    <circle id="iris" cx="90" cy="54" r="7.5" fill="#1e1e1e"/>
+  </g>
+</svg>

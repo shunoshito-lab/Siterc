@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Spigolo, proposta 3: sagoma">
+  <title>Spigolo — proposta 3, sagoma</title>
+  <!-- Radio Carducci. Una sagoma sola, in rosso: si legge sia su ink sia su bone.
+       Regge anche a 24px, come il monogramma. L'iride ha id="iris". -->
+  <g id="spigolo">
+    <path fill="#db3849" d="M104 0
+      L110 22 L132 6 L124 32 L150 26 L132 46
+      L140 58 L150 118 L138 158 L112 174
+      L120 180 L120 188 L92 188 L96 166
+      L80 198 L58 198 L92 150
+      L70 140 L60 100 L62 66
+      L24 66 L28 82 L50 86 L56 60
+      L72 30 Z"/>
+    <!-- mandibola inferiore, scavata -->
+    <path fill="#1e1e1e" d="M50 80 L32 88 L46 96 L62 92 Z" opacity="0"/>
+    <!-- occhio scavato nella sagoma -->
+    <path fill="#1e1e1e" d="M80 40 L106 38 L108 64 L82 66 Z"/>
+    <path id="iris" fill="#f4f4f5" d="M86 46 L98 45 L99 58 L87 59 Z"/>
+    <!-- taglio dell'ala: un solo segno -->
+    <path fill="#1e1e1e" d="M112 90 L140 110 L134 148 L116 156 Z"/>
+  </g>
+</svg>

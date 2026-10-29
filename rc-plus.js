@@ -335,12 +335,44 @@
     };
   }
 
+  // ═══════════════════════════════════════════════════════════════
+  // TEAM: le schede entrano una dietro l'altra, 40ms di scarto
+  // ═══════════════════════════════════════════════════════════════
+  function initTeam() {
+    const grid = document.querySelector('#team .team__grid');
+    if (!grid) return;
+
+    function anima() {
+      const cards = grid.querySelectorAll('.team-member');
+      if (!cards.length) return;
+      grid.classList.remove('team--in');
+      cards.forEach((c, i) => {
+        c.classList.add('team-member--enter');
+        c.style.setProperty('--d', Math.min(i, 14) * 40 + 'ms');
+      });
+      if (REDUCED) { grid.classList.add('team--in'); return; }
+      // doppio frame: il browser deve vedere lo stato di partenza
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        onVisible(grid, () => grid.classList.add('team--in'), 0.1);
+      }));
+    }
+
+    anima();
+    // la griglia viene ridisegnata dai filtri: rianima a ogni cambio
+    let t = 0;
+    new MutationObserver(() => {
+      clearTimeout(t);
+      t = setTimeout(anima, 20);
+    }).observe(grid, { childList: true });
+  }
+
   function boot() {
     initLiveBadges();
     initStudi();
     initBumpers();
     initRise();
     initFlashBumpers();
+    initTeam();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();

@@ -546,10 +546,11 @@
    tutte uguali, così la griglia si legge come un blocco unico.
    Ruolo esteso, bio e programmi stanno nella scheda che si apre al clic. */
 #team .team__grid {
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 168px), 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 176px), 1fr));
+  /* schede staccate: aria fra una e l'altra, non un muro unico */
+  gap: var(--s-4);
+  background: none;
+  border: 0;
 }
 #team .team-member {
   position: relative;
@@ -557,10 +558,32 @@
   gap: 0;
   text-align: left;
   background: var(--rc-ink);
-  transition: background 120ms var(--ease-out);
+  /* un solo colore di bordo, come dice il brand */
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  transition: border-color 120ms var(--ease-out), transform 200ms var(--ease-out);
 }
 #team .team-member:hover,
-#team .team-member:focus-visible { background: var(--bg-elev); }
+#team .team-member:focus-visible {
+  border-color: var(--rc-red);
+  /* niente rimbalzo: due pixel secchi verso l'alto */
+  transform: translateY(-2px);
+}
+/* entrata: le schede salgono una dietro l'altra, taglio secco */
+#team .team-member--enter {
+  opacity: 0;
+  transform: translateY(14px);
+}
+#team .team__grid.team--in .team-member--enter {
+  opacity: 1;
+  transform: none;
+  transition: opacity 200ms var(--ease-out) var(--d, 0ms),
+              transform 360ms var(--ease-out) var(--d, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  #team .team-member--enter { opacity: 1; transform: none; }
+  #team .team-member:hover { transform: none; }
+}
 
 #team .team-member__photo {
   max-width: none;
@@ -642,13 +665,14 @@
 /* Sul telefono si vedono più persone per schermata: schede più piccole.
    Sotto i 340px si torna a due, altrimenti i nomi non ci stanno. */
 @media (max-width: 760px) {
-  #team .team__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #team .team__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-2); }
   #team .team-member__body { min-height: 4.9em; padding: 8px; }
-  #team .team-member__name { font-size: 13px; letter-spacing: -0.01em; }
+  /* nomi lunghi: spezza solo se proprio non ci sta, mai a meta' parola per vezzo */
+  #team .team-member__name { font-size: 12px; letter-spacing: -0.02em; overflow-wrap: break-word; }
   #team .team-member__role { font-size: 8px; letter-spacing: 0.1em; }
 }
 @media (max-width: 340px) {
-  #team .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #team .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
 }
 
 /* ── ESPLORA: ora e almanacco ──────────────────────────────── */

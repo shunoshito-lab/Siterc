@@ -1,0 +1,65 @@
+{
+ "programma": "cose-da-nerd",
+ "titolo": "Stranger Things",
+ "data": "2026-01-07",
+ "conduzione": "Marta e Simone",
+ "ospite": "",
+ "intro": "Cinque talk, una canzone dopo ognuno. Redazione: Sofia.",
+ "blocchi": [
+  {
+   "tipo": "talk",
+   "titolo": "Il fenomeno che ha riportato gli anni Ottanta",
+   "testo": [
+    "Bentornati a Cose da Nerd. Ci siamo presi una pausa natalizia, ma per una buona ragione: dovevamo recuperare gli arretrati. Le serie, i film, i giochi accumulati. E soprattutto dovevamo vedere quello.",
+    "Oggi facciamo quello che facevano i ragazzi di Hawkins ogni volta che si riunivano nel seminterrato di Mike: accendiamo le torce, tiriamo fuori le patatine e ci prepariamo a esplorare un mondo parallelo.",
+    "Ma non il Sottosopra. Oggi esploriamo qualcosa di ancora più strano: come una serie su quattro ragazzini in bicicletta sia riuscita a fare quello che nessun Demogorgone potrebbe mai fare, cioè divorare la cultura pop mondiale.",
+    "Stranger Things. Otto anni fa non la conosceva nessuno. Oggi è impossibile non conoscerla.",
+    "Mettetevi comodi, spegnete le luci e restate sintonizzati."
+   ],
+   "brano": ""
+  },
+  {
+   "tipo": "talk",
+   "titolo": "La serie e la trama",
+   "testo": [
+    "I fratelli Duffer hanno immaginato Stranger Things come una dichiarazione d'amore agli anni Ottanta, intrecciando mistero, avventura e una quantità enorme di riferimenti alla cultura pop di quell'epoca. Il risultato è un'atmosfera nostalgica e inquietante allo stesso tempo.",
+    "Una curiosità: all'inizio la serie si sarebbe dovuta chiamare Montauk.",
+    "Da qui in poi, allerta spoiler, soprattutto per l'ultimo episodio dell'ultima stagione.",
+    "Hawkins, Indiana, novembre 1983. Will Byers scompare nel nulla dopo una partita a Dungeons & Dragons. I suoi amici partono in bicicletta a cercarlo e nel bosco, invece di Will, trovano lei: testa rasata, sguardo terrorizzato, un numero tatuato sul braccio. Undici.",
+    "E Undici può fare cose impossibili. Da lì tutto precipita: laboratori segreti, esperimenti del governo, un mondo parallelo chiamato Sottosopra, identico al nostro ma marcio e oscuro. Quattro ragazzini con le bici e i walkie-talkie contro forze che nemmeno gli adulti capiscono."
+   ],
+   "brano": ""
+  },
+  {
+   "tipo": "talk",
+   "titolo": "Le citazioni e Dungeons & Dragons",
+   "testo": [
+    "La serie è piena di citazioni diventate iconiche, dall'\"Amici non mentono\" di Undici alle battute di Hopper, Dustin e Robin, fra momenti commoventi e umorismo.",
+    "Ma cos'è Dungeons & Dragons? È il primo e più famoso gioco di ruolo fantasy: i giocatori interpretano personaggi in un mondo immaginario, raccontando una storia attraverso l'immaginazione, i dadi e un set di regole. C'è un Dungeon Master che fa da narratore e arbitro, gestisce il mondo e le sfide, mentre i giocatori decidono cosa fare.",
+    "I riferimenti nella serie sono ovunque: Vecna, un cattivo asceso a divinità; i Demogorgoni, suoi scagnozzi; e i protagonisti, che aprono la serie giocando proprio a Dungeons & Dragons e, allerta spoiler, la chiudono allo stesso modo."
+   ],
+   "brano": ""
+  },
+  {
+   "tipo": "talk",
+   "titolo": "La teoria del finale",
+   "testo": [
+    "Sui social si discute molto di quanto il finale abbia deluso. Al netto dei buchi di trama, in diversi lamentano una certa mancanza di coraggio nelle scelte.",
+    "In cima alla lista ci sono i Byler: molti si aspettavano che Mike e Will finissero insieme, sulla base di vari indizi nella trama. Sarebbe stata scelta invece la via più sicura.",
+    "Se a questo si aggiungono le trame troncate di colpo e le domande rimaste senza risposta, si capisce come la voglia di spiegazioni sia confluita in una grande teoria: il vero ultimo episodio uscirebbe il 7 gennaio, giorno in cui Netflix tiene il suo evento di annunci.",
+    "Gli indizi che circolano: l'ottavo episodio sarebbe un finto finale; i personaggi vivrebbero in una realtà simulata da Vecna; nella scena del diploma molti compagni siedono con le braccia incrociate, nella posa di Henry Creel; sullo sfondo una donna regge un cartellone giallo senza scritte, come un errore della simulazione; Mike, mentre finisce il suo libro, ha capelli e occhiali simili a quelli di Mr. Whatsit; sale le scale del seminterrato con un richiamo al manifesto di The Truman Show.",
+    "E ancora: i quaderni di Dungeons & Dragons sulla mensola comporrebbero la scritta X a lie, cioè quello che accade nella dimensione X è una menzogna. I brani di Bowie sarebbero stati usati per mostrare finte morti, da Will a Hopper fino a Hero nel finale, che indicherebbe Undici ancora viva.",
+    "Infine il numero sette, che torna di continuo: una settimana per trovare Will nella prima stagione, sette secondi perché il fulmine colpisca nel Sottosopra, sette secondi di schermo nero quando Steve sta per cadere, un sette sul dado accanto all'ultima immagine della serie. E il 7 gennaio, sette giorni dopo l'ottavo episodio."
+   ],
+   "brano": ""
+  },
+  {
+   "tipo": "talk",
+   "titolo": "Outro",
+   "testo": [
+    "Saluti e appuntamento alla prossima puntata."
+   ],
+   "brano": ""
+  }
+ ]
+}
