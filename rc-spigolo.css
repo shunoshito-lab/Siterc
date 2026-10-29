@@ -80,3 +80,17 @@
 @keyframes gt-coda { from { transform: rotate(-8deg); } to { transform: rotate(10deg); } }
 
 @media (prefers-reduced-motion: reduce) { .gt { display: none; } }
+
+/* ── QUANDO IL 3D E' VIVO ──────────────────────────────────
+   I disegni piatti restano come rete di sicurezza: se three.js
+   o la scheda video non vanno, si vedono quelli. */
+.m3d {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+html.rc-3d .sp svg,
+html.rc-3d .gt svg { visibility: hidden; }

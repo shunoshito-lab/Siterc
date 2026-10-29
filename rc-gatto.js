@@ -53,7 +53,7 @@
     return innerHeight - h - 56;
   }
 
-  const G = {
+  const G = window.RCGatto = {
     x: -200, y: 0, vx: 0,
     verso: 1,      // 1 guarda a destra
     passo: 0,
